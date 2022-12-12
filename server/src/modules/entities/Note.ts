@@ -17,6 +17,6 @@ export class Note {
     createdAt: Date
 
   @ManyToOne(() => User, user => user.notes)
-  @JoinColumn({name: 'user_id'})
+  @JoinColumn({ name: 'user_id' })
     user: User
 }

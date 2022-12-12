@@ -1,8 +1,8 @@
 version: '3'
 
 services:
-  todo-app-client:
-    container_name: todo-app-client
+  notes-app-client:
+    container_name: notes-app-client
     image: node:alpine
     volumes:
       - ./client:/app
@@ -11,8 +11,8 @@ services:
       sh -c "npm install && npm run dev"
     ports:
       - '5173:5173'
-  todo-app-server:
-    container_name: todo-app-server
+  notes-app-server:
+    container_name: notes-app-server
     image: node:alpine
     working_dir: /app
     command: >
@@ -26,19 +26,19 @@ services:
       - DB_PORT=5432
       - DB_USER=postgres
       - DB_PASSWORD=postgres
-      - DB_NAME=todo_app_database
-      - DB_HOST=todo-app-db
+      - DB_NAME=notes_app_database
+      - DB_HOST=notes-app-db
     depends_on:
-      - todo-app-db
-  todo-app-db:
-    container_name: todo-app-db
+      - notes-app-db
+  notes-app-db:
+    container_name: notes-app-db
     image: 'postgres:14-alpine'
     ports:
       - '5432:5432'
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=todo_app_database
+      - POSTGRES_DB=notes_app_database
     volumes:
       - pg-data:/var/lib/postgresql/data
 volumes:
