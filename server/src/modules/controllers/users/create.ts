@@ -1,5 +1,6 @@
 import { Request, Response } from 'express'
 import { validation } from '../../middleware'
+import { UsersService } from '../../services'
 import * as yup from 'yup'
 
 interface ICreate {
@@ -17,6 +18,7 @@ export const createValidation = validation({
 export const create = async (req: Request<{}, {}, ICreate>, res: Response) => {
   const data = req.body
 
+  const user = await UsersService.create(data)
 
-  return res.send(data)
+  return res.send(user)
 }
