@@ -2,6 +2,7 @@ import { Request, Response } from 'express'
 import { validation } from '../../middleware'
 import { UsersService } from '../../services'
 import * as yup from 'yup'
+import bcrypt from 'bcrypt'
 
 interface ICreate {
   name: string
@@ -18,7 +19,11 @@ export const createValidation = validation({
 export const create = async (req: Request<{}, {}, ICreate>, res: Response) => {
   const data = req.body
 
-  const user = await UsersService.create(data)
+  const encryptedPassword = await bcrypt.hash(data.password, 10)
 
-  return res.send(user)
+  const user = await UsersService.create(data.name, encryptedPassword)
+
+  return res.status(201).json({
+    'id': user.id
+  })
 }
