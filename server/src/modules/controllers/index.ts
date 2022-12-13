@@ -1,2 +1,2 @@
-export * from './UserController'
-export * from './NoteController'
+export * from './users'
+export * from './notes'

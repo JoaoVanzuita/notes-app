@@ -1,22 +1,22 @@
 import { Router } from 'express'
-import { NoteController, UserController } from './modules/controllers'
+import { NotesController, UsersController } from './modules/controllers'
 
 const routes = Router()
 
-routes.post('/users', UserController.create)
-routes.post('/users/login', UserController.login)
+routes.post('/users/login', UsersController.login)
 
 // routes.use(authMiddleware)
 
-routes.put('/users/:id', UserController.updateById)
-routes.delete('/users/:id', UserController.deleteById)
-routes.get('/users/:id', UserController.getLoggedIn)
+routes.post('/users', UsersController.createBodyValidator, UsersController.create)
+routes.put('/users/:id', UsersController.updateById)
+routes.delete('/users/:id', UsersController.deleteById)
+routes.get('/users', UsersController.getLoggedIn)
 
-routes.post('/notes', NoteController.create)
-routes.get('/notes/user/:userId', NoteController.getAllByUser)
-routes.put('/notes/:id', NoteController.updateById)
-routes.delete('/notes/:id', NoteController.deleteById)
+routes.post('/notes', NotesController.create)
+routes.get('/notes/user/:userId', NotesController.getAllByUser)
+routes.put('/notes/:id', NotesController.updateById)
+routes.delete('/notes/:id', NotesController.deleteById)
 routes.get('/notes/user/:userId/search', (req, res) =>
-  req.query.title ? NoteController.getByTitle(req, res) : NoteController.getByDate(req, res))
+  req.query.title ? NotesController.getByTitle(req, res) : NotesController.getByDate(req, res))
 
 export { routes }

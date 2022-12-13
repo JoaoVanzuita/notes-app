@@ -33,6 +33,7 @@
         "semi": [
             "error",
             "never"
-        ]
+        ],
+        "@typescript-eslint/ban-types": "off"
     }
 }

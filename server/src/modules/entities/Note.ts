@@ -13,8 +13,8 @@ export class Note {
   @Column({ type: 'text' })
     description: string
 
-  @Column({ type: 'date' })
-    createdAt: Date
+  @Column({ name: 'created_on', type: 'date' })
+    createdOn: Date
 
   @ManyToOne(() => User, user => user.notes)
   @JoinColumn({ name: 'user_id' })
