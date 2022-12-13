@@ -18,7 +18,7 @@ export const create = async (req: Request<{}, {}, ICreate>, res: Response) => {
   const data = req.body
 
   const user = req.user
-  const actualDate = new Date().toLocaleDateString()
+  const actualDate = new Date()
 
   const note = await NotesService.create(data.title, data.description, user, actualDate)
 
