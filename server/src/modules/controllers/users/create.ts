@@ -1,8 +1,8 @@
 import { Request, Response } from 'express'
 import { validation } from '../../middleware'
 import { UsersService } from '../../services'
-import * as yup from 'yup'
 import bcrypt from 'bcrypt'
+import * as yup from 'yup'
 
 interface ICreate {
   name: string

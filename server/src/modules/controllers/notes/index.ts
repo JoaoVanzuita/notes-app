@@ -1,15 +1,15 @@
-import { create } from './create'
-import { updateById } from './updateById'
-import { deleteById } from './deleteById'
-import { getAllByUser } from './getAllByUser'
-import { getByDate } from './getByDate'
-import { getByTitle } from './getByTitle'
+import * as create from './create'
+import * as updateById from './updateById'
+import * as deleteById from './deleteById'
+import * as getAllByUser from './getAllByUser'
+import * as getByDate from './getByDate'
+import * as getByTitle from './getByTitle'
 
 export const NotesController = {
-  create,
-  updateById,
-  deleteById,
-  getAllByUser,
-  getByDate,
-  getByTitle
+  ...create,
+  ...updateById,
+  ...deleteById,
+  ...getAllByUser,
+  ...getByDate,
+  ...getByTitle
 }

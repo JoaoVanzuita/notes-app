@@ -13,11 +13,11 @@ routes.get('/users', UsersController.getLoggedIn)
 routes.put('/users', UsersController.updateValidation, UsersController.updateById)
 routes.delete('/users', UsersController.deleteById)
 
-routes.post('/notes', NotesController.create)
-routes.get('/notes/user/:userId', NotesController.getAllByUser)
+routes.post('/notes', NotesController.createValidation, NotesController.create)
+routes.get('/notes', NotesController.getAllByUser)
 routes.put('/notes/:id', NotesController.updateById)
 routes.delete('/notes/:id', NotesController.deleteById)
-routes.get('/notes/user/:userId/search', (req, res) =>
+routes.get('/notes/search', (req, res) =>
   req.query.title ? NotesController.getByTitle(req, res) : NotesController.getByDate(req, res))
 
 export { routes }
