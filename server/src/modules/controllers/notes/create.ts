@@ -14,6 +14,7 @@ export const createValidation = validation({
     description: yup.string().min(3).max(500).required()
   })
 })
+
 export const create = async (req: Request<{}, {}, ICreate>, res: Response) => {
   const data = req.body
 

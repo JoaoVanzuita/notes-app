@@ -15,7 +15,7 @@ routes.delete('/users', UsersController.deleteById)
 
 routes.post('/notes', NotesController.createValidation, NotesController.create)
 routes.get('/notes', NotesController.getAllByUser)
-routes.put('/notes/:id', NotesController.updateById)
+routes.put('/notes/:id', NotesController.updateValidation, NotesController.updateById)
 routes.delete('/notes/:id', NotesController.deleteById)
 routes.get('/notes/search', (req, res) =>
   req.query.title ? NotesController.getByTitle(req, res) : NotesController.getByDate(req, res))
