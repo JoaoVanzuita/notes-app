@@ -7,7 +7,7 @@ routes.post('/users/login', UsersController.login)
 
 // routes.use(authMiddleware)
 
-routes.post('/users', UsersController.createBodyValidator, UsersController.create)
+routes.post('/users', UsersController.createValidation, UsersController.create)
 routes.put('/users/:id', UsersController.updateById)
 routes.delete('/users/:id', UsersController.deleteById)
 routes.get('/users', UsersController.getLoggedIn)
