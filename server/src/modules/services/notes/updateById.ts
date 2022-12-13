@@ -16,6 +16,7 @@ export const updateById = async (id: number, title: string, description: string,
     throw new ServerError('Note not found', 404)
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const isOwner = await checkOwner(user.id!, id)
 
   if(!isOwner){
