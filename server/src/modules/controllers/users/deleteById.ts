@@ -1,6 +1,13 @@
 import { Request, Response } from 'express'
+import { UsersService } from '../../services'
 
 export const deleteById = async (req: Request, res: Response) => {
+  const id = req.user.id
 
-  return res.send('deleteById - OK')
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  const idDeleted = await UsersService.deleteById(id!)
+
+  return res.json({
+    'id': idDeleted
+  })
 }

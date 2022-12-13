@@ -10,8 +10,8 @@ routes.post('/users', UsersController.createValidation, UsersController.create)
 routes.use(authMiddleware)
 
 routes.get('/users', UsersController.getLoggedIn)
-routes.put('/users/:id', UsersController.updateById)
-routes.delete('/users/:id', UsersController.deleteById)
+routes.put('/users', UsersController.updateValidation, UsersController.updateById)
+routes.delete('/users', UsersController.deleteById)
 
 routes.post('/notes', NotesController.create)
 routes.get('/notes/user/:userId', NotesController.getAllByUser)

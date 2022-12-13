@@ -11,12 +11,12 @@ export const create = async (name: string, password: string) => {
     throw new ServerError('User already exists')
   }
 
-  const newUser = UserRepository.create({
+  const user = UserRepository.create({
     name,
     password
   })
 
-  const user = await UserRepository.save(newUser)
+  const newUser = await UserRepository.save(user)
 
-  return user
+  return newUser
 }

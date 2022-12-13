@@ -22,6 +22,7 @@ export const authMiddleware = async (req: Request, res: Response, next: NextFunc
     throw new ServerError('Unauthorized user', 401)
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { password: _, ...loggedUser } = user
 
   req.user = loggedUser
