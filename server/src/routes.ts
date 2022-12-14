@@ -18,6 +18,6 @@ routes.get('/notes', NotesController.getAllByUser)
 routes.put('/notes/:id', NotesController.updateValidation, NotesController.updateById)
 routes.delete('/notes/:id', NotesController.deleteValidation, NotesController.deleteById)
 routes.get('/notes/title', NotesController.getByTitleValidation, NotesController.getByTitle)
-routes.get('/notes/date', NotesController.getByDate)
+routes.get('/notes/date', NotesController.getByDateValidation, NotesController.getByDate)
 
 export { routes }

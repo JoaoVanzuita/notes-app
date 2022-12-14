@@ -1,6 +1,7 @@
 import { Request, Response } from 'express'
 import { validation } from '../../middleware'
 import { NotesService } from '../../services'
+import { ServerError } from '../../errors/ServerError'
 import * as yup from 'yup'
 
 interface IGetByTitleQuery {
@@ -19,6 +20,10 @@ export const getByTitle = async (req: Request<{}, {}, {}, IGetByTitleQuery>, res
 
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const notes = await NotesService.getByTitle(title!, user)
+
+  if(!notes.length){
+    throw new ServerError('No notes found', 404)
+  }
 
   return res.json({
     'notes': notes

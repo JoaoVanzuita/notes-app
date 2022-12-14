@@ -1,15 +1,17 @@
-import { Like } from 'typeorm'
+import { Between } from 'typeorm'
 import { NoteRepository } from '../../repositories'
 
 interface IUser {
   id?: number
 }
 
-export const getByTitle = async (title: string, user: IUser) => {
+export const getByDate = async (start: Date, end:Date, user: IUser) => {
 
   const notes = await NoteRepository.find({
     where:{
-      title: Like(`%${title}%`),
+      updatedOn: Between(
+        start, end
+      ),
       user: {
         id: user.id
       }
