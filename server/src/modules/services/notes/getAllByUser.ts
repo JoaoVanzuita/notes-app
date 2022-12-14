@@ -6,13 +6,13 @@ interface IUser {
 
 export const getAllByUser = async (user: IUser) => {
 
-  const notes = NoteRepository.find({
+  const notes = await NoteRepository.find({
     where: {
       user: {
         id: user.id
       }
     }
   })
-  
+
   return notes
 }

@@ -7,5 +7,7 @@ export const getAllByUser = async (req: Request, res: Response) => {
 
   const notes = await NotesService.getAllByUser(user)
 
-  res.json(notes)
+  return res.json({
+    'notes': notes
+  })
 }

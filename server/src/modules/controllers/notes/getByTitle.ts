@@ -1,10 +1,26 @@
 import { Request, Response } from 'express'
+import { validation } from '../../middleware'
+import { NotesService } from '../../services'
+import * as yup from 'yup'
 
-// interface 
+interface IGetByTitleQuery {
+  title?:string
+}
 
-export const getByTitle = async (req: Request, res: Response) => {
+export const getByTitleValidation = validation({
+  query: yup.object().shape({
+    title: yup.string().min(1).required()
+  })
+})
 
+export const getByTitle = async (req: Request<{}, {}, {}, IGetByTitleQuery>, res: Response) => {
+  const user = req.user
+  const { title } = req.query
 
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  const notes = await NotesService.getByTitle(title!, user)
 
-  res.send('getByTitle - OK')
+  return res.json({
+    'notes': notes
+  })
 }
