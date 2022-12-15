@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 import { validation } from '../../middleware'
-import * as yup from 'yup'
 import { UsersService } from '../../services'
+import * as yup from 'yup'
 
 interface ILogin {
   name: string
@@ -20,5 +20,5 @@ export const login = async (req: Request<{}, {}, ILogin>, res: Response) => {
 
   const accessToken = await UsersService.login(data.name, data.password)
 
-  return res.cookie('accessToken', accessToken).send()
+  return res.cookie('accessToken', accessToken).send('')
 }
