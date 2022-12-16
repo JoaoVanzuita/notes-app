@@ -1,16 +1,24 @@
-import { Box, Button, Card, CardActions, CardContent, Icon, LinearProgress, Link, List, ListItemButton, ListItemIcon, ListItemText, Paper, TextField, Typography } from '@mui/material'
+import { Box, Button, Card, CardActions, CardContent, Icon, LinearProgress, List, ListItemButton, ListItemIcon, ListItemText, Paper, TextField, Typography, useTheme } from '@mui/material'
 import { useState } from 'react'
 import { useAppThemeContext } from '../shared/contexts'
-import * as yup from 'yup'
 import { UsersService } from '../shared/services/api/users'
-import { ResponseError } from '../shared/types'
+import { ResponseError } from '../shared/services/api/errors'
+import { useNavigate } from 'react-router-dom'
+import Swal from 'sweetalert2'
+import YupPassword from 'yup-password'
+import * as yup from 'yup'
+YupPassword(yup)
 
 const registerSchema = yup.object().shape({
   name: yup.string().min(3).required(),
-  password: yup.string().min(8).required()
+  password: yup.string().min(8).required(),
+  confirmPassword: yup.string().oneOf([yup.ref('password'), null], 'passwords does not match')
 })
 
 export const Register = () => {
+  const theme = useTheme()
+  const alertBackground = theme.palette.background.default
+  const alertColor = theme.palette.mode === 'light' ? '#000000' : '#ffffff'
   const [ isLoading, setIsLoading ] = useState(false)
   const {toggleTheme} = useAppThemeContext()
   const [name, setName] = useState('')
@@ -19,28 +27,59 @@ export const Register = () => {
   const [nameError, setNameError] = useState('')
   const [passwordError, setPasswordError] = useState('')
   const [confirmPasswordError, setConfirmPasswordError] = useState('')
+  const navigate = useNavigate()
 
   const handleSubmit = async () => {
+    setIsLoading(true)
 
-    const response = await UsersService.register({name, password})
+    registerSchema.validate({name, password, confirmPassword}, { abortEarly: false })
+      .then(async (validData) => {
 
-    if(response instanceof ResponseError){
-      alert(`Status: ${response.statusCode} - Message: ${response.message}`)
-    }
+        const result = await UsersService.register({name: validData.name, password: validData.password})
+        setIsLoading(false)
 
-    console.log(response)
+        if(result instanceof ResponseError){
+
+          Swal.fire({
+            titleText: `Ocorreu um erro - Código: ${result.statusCode}`,
+            text: result.message.toString(),
+            icon: 'error',
+            background: alertBackground,
+            color: alertColor
+          })
+
+          return
+        }
+
+        navigate('/login')
+      })
+      .catch((errors: yup.ValidationError) => {
+        setIsLoading(false)
+
+        errors.inner.forEach(error => {
+          if(error.path === 'name'){
+            setNameError(error.message)
+          }
+          if(error.path === 'password'){
+            setPasswordError(error.message)
+          }
+          if(error.path === 'confirmPassword'){
+            setConfirmPasswordError(error.message)
+          }
+        })
+      })
   }
 
   return(
     <Box width='100vw' height='100vh' display='flex' flexDirection='column' alignItems='center' justifyContent='center'>
 
-      <Box position='absolute' top='0' right='0'>
+      <Box position='absolute' top='5px' right='10px'>
         <List component='nav'>
           <ListItemButton onClick={toggleTheme} component={Paper}>
             <ListItemIcon>
               <Icon>dark_mode</Icon>
             </ListItemIcon>
-            <ListItemText primary='Alternar tema' />
+            <ListItemText primary='Alternar tema'/>
           </ListItemButton>
         </List>
       </Box>
@@ -48,9 +87,9 @@ export const Register = () => {
       <Card>
 
         <CardContent>
-          <Box display='flex' flexDirection='column' gap={2} width={250}>
+          <Box width={300} display='flex' justifyContent='center' flexDirection='column' gap={3}>
             <Typography variant='h5' align='center'>
-              Cadastrar
+              Cadastro
             </Typography>
 
             <TextField fullWidth name='userName' label='Nome de usuário' type='text'
@@ -79,7 +118,6 @@ export const Register = () => {
             />
           </Box>
 
-
         </CardContent>
         <CardActions>
           <Box width='100%' display='flex' justifyContent='center'>
@@ -92,8 +130,8 @@ export const Register = () => {
         </CardActions>
 
         <Box display='flex' flexDirection='column' alignItems='center' justifyContent='center' paddingTop={1} paddingBottom={1}>
-          <Typography variant='caption'>
-            Já possui uma conta? <Link underline='hover' href='/login' >Entrar</Link>
+          <Typography variant='subtitle1'>
+            Já possui uma conta? <Button variant='text' onClick={() => navigate('/login')}>Entrar</Button>
           </Typography>
         </Box>
 

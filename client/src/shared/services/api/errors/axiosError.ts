@@ -1,6 +1,5 @@
 import { AxiosError } from 'axios'
-import { ResponseError } from '../../../types'
-
+import { ResponseError } from '.'
 
 export const errorInterceptor = (error: AxiosError) => {
 

@@ -1,19 +1,11 @@
 import { Environment } from '../../../environment'
-import { User } from '../../../types/User'
 import { Api } from '../axios-config'
 import { ResponseError } from '../errors'
 
-type TRegisterData = {
-  name: string
-  password: string
-}
-
-export const register = async (userData: TRegisterData): Promise<User | ResponseError> => {
+export const logout = async (): Promise<undefined | ResponseError> => {
   try {
 
-    const { data } = await Api.post('/users', userData)
-
-    return data
+    await Api.post('/logout')
 
   } catch (error) {
 

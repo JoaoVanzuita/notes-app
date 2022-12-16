@@ -4,7 +4,7 @@ import { UserRepository } from '../repositories/UserRepository'
 import { JwtPayload } from '../types'
 import jwt from 'jsonwebtoken'
 
-const JWT_SECRET = process.env.JWT_PORT ?? ''
+const JWT_SECRET = process.env.JWT_SECRET ?? ''
 
 export const authMiddleware = async (req: Request, res: Response, next: NextFunction) => {
 

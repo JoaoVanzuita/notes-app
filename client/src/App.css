@@ -1,0 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+.swal2-popup, .swal2-title, .swal2-html-container{
+  font-family: 'Roboto', sans-serif;
+}

@@ -20,5 +20,7 @@ export const login = async (req: Request<{}, {}, ILogin>, res: Response) => {
 
   const accessToken = await UsersService.login(data.name, data.password)
 
-  return res.cookie('accessToken', accessToken).send('')
+  return res.cookie('accessToken', accessToken, {
+    httpOnly: true,
+  }).send('')
 }

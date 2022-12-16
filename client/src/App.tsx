@@ -1,6 +1,7 @@
 import { Route, Routes } from 'react-router-dom'
 import { Home, ManageAccount, Login, Register } from './pages'
 import { RequireAuth } from './shared/contexts/auth/RequireAuth'
+import './App.css'
 
 export const App = () => {
 

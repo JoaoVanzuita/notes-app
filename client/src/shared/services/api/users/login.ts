@@ -1,9 +1,13 @@
 import { Environment } from '../../../environment'
-import { ResponseError } from '../../../types'
-import { User } from '../../../types/User'
 import { Api } from '../axios-config'
+import { ResponseError } from '../errors'
 
-export const login = async (loginData: User): Promise<undefined | ResponseError> => {
+type TLoginData = {
+  name: string
+  password: string
+}
+
+export const login = async (loginData: TLoginData): Promise<undefined | ResponseError> => {
   try {
 
     await Api.post('/login', loginData)

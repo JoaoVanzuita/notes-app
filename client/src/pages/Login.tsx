@@ -1,10 +1,11 @@
-import { Box, Button, Card, CardActions, CardContent, Icon, LinearProgress, Link, List, ListItemButton, ListItemIcon, ListItemText, Paper, TextField, Typography } from '@mui/material'
+import { Box, Button, Card, CardActions, CardContent, Icon, LinearProgress, List, ListItemButton, ListItemIcon, ListItemText, Paper, TextField, Typography, useTheme } from '@mui/material'
 import { useState } from 'react'
-import * as yup from 'yup'
-
+import { useNavigate } from 'react-router-dom'
 import { useAppThemeContext } from '../shared/contexts'
-import { UsersService } from '../shared/services/api/users'
-import { ResponseError } from '../shared/types'
+import { useAuthContext } from '../shared/contexts/auth/AuthContext'
+import { ResponseError } from '../shared/services/api/errors'
+import Swal from 'sweetalert2'
+import * as yup from 'yup'
 
 const loginSchema = yup.object().shape({
   name: yup.string().min(3).required(),
@@ -12,26 +13,60 @@ const loginSchema = yup.object().shape({
 })
 
 export const Login = () => {
+  const theme = useTheme()
+  const alertBackground = theme.palette.background.default
+  const alertColor = theme.palette.mode === 'light' ? '#000000' : '#ffffff'
+  const authService = useAuthContext()
   const [ isLoading, setIsLoading ] = useState(false)
   const {toggleTheme} = useAppThemeContext()
   const [name, setName] = useState('')
   const [password, setPassword] = useState('')
   const [nameError, setNameError] = useState('')
   const [passwordError, setPasswordError] = useState('')
+  const navigate = useNavigate()
 
   const handleSubmit = async () => {
+    setIsLoading(true)
 
-    const response = await UsersService.login({name, password})
+    loginSchema.validate({name, password}, { abortEarly: false })
+      .then(async (validData) => {
 
-    if(response instanceof ResponseError){
-      alert(`Status: ${response.statusCode} - Message: ${response.message}`)
-    }
+        const result = await authService.signin(validData.name, validData.password)
+        setIsLoading(false)
+
+        if(result instanceof ResponseError){
+
+          Swal.fire({
+            titleText: `Ocorreu um erro - Código: ${result.statusCode}`,
+            text: result.message.toString(),
+            icon: 'error',
+            background: alertBackground,
+            color: alertColor
+          })
+
+          return
+        }
+
+        navigate('/')
+      })
+      .catch((errors: yup.ValidationError) => {
+        setIsLoading(false)
+
+        errors.inner.forEach(error => {
+          if(error.path === 'name'){
+            setNameError(error.message)
+          }
+          if(error.path === 'password'){
+            setPasswordError(error.message)
+          }
+        })
+      })
   }
 
   return(
     <Box width='100vw' height='100vh' display='flex' flexDirection='column' alignItems='center' justifyContent='center'>
 
-      <Box position='absolute' top='0' right='0'>
+      <Box position='absolute' top='5px' right='10px'>
         <List component='nav'>
           <ListItemButton onClick={toggleTheme} component={Paper}>
             <ListItemIcon>
@@ -45,7 +80,7 @@ export const Login = () => {
       <Card>
 
         <CardContent>
-          <Box display='flex' flexDirection='column' gap={2} width={250}>
+          <Box width='100%' display='flex' justifyContent='center' flexDirection='column' gap={3}>
             <Typography variant='h5' align='center'>
               Login
             </Typography>
@@ -80,9 +115,9 @@ export const Login = () => {
           </Box>
         </CardActions>
 
-        <Box display='flex' flexDirection='column' alignItems='center' justifyContent='center' paddingTop={1} paddingBottom={1}>
-          <Typography variant='caption'>
-            Ainda não possui uma conta? <Link underline='hover' href='/register' >Cadastrar</Link>
+        <Box display='flex' flexDirection='column' alignItems='center' justifyContent='center' padding={1}>
+          <Typography variant='subtitle1'>
+            Ainda não possui uma conta? <Button variant='text' onClick={() => navigate('/register')}>Cadastrar</Button>
           </Typography>
         </Box>
 

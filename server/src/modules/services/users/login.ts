@@ -4,6 +4,8 @@ import jwt from 'jsonwebtoken'
 import { ServerError } from '../../errors/ServerError'
 import { UserRepository } from '../../repositories'
 
+const JWT_SECRET = process.env.JWT_SECRET ?? ''
+
 export const login = async (name: string, password:string) => {
 
   const user = await UserRepository.findOneBy({
@@ -11,7 +13,7 @@ export const login = async (name: string, password:string) => {
   })
 
   if(!user) {
-    throw new ServerError('User not found', 404)
+    throw new ServerError('invalid credentials')
   }
 
   const result = await UserRepository
@@ -23,13 +25,13 @@ export const login = async (name: string, password:string) => {
   const verifyPassword = await bcrypt.compare(password, result.password)
 
   if (!verifyPassword) {
-    throw new ServerError('invalid password')
+    throw new ServerError('invalid credentials')
   }
 
   const token = jwt.sign({
     id: user.id
   },
-  'a07e4ae1-b1ef-4823-8bcb-3f9c6f009b91', {
+  JWT_SECRET, {
     expiresIn: '12h'
   })
 
