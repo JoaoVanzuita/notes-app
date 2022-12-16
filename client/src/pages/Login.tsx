@@ -3,6 +3,8 @@ import { useState } from 'react'
 import * as yup from 'yup'
 
 import { useAppThemeContext } from '../shared/contexts'
+import { UsersService } from '../shared/services/api/users'
+import { ResponseError } from '../shared/types'
 
 const loginSchema = yup.object().shape({
   name: yup.string().min(3).required(),
@@ -16,6 +18,17 @@ export const Login = () => {
   const [password, setPassword] = useState('')
   const [nameError, setNameError] = useState('')
   const [passwordError, setPasswordError] = useState('')
+
+  const handleSubmit = async () => {
+
+    const response = await UsersService.login({name, password})
+
+    if(response instanceof ResponseError){
+      alert(`Status: ${response.statusCode} - Message: ${response.message}`)
+    }
+
+    console.log(response)
+  }
 
   return(
     <Box width='100vw' height='100vh' display='flex' flexDirection='column' alignItems='center' justifyContent='center'>
@@ -62,7 +75,7 @@ export const Login = () => {
         <CardActions>
           <Box width='100%' display='flex' justifyContent='center'>
 
-            <Button disabled={isLoading} variant='contained' onClick={() => alert('Not implemented')}>
+            <Button disabled={isLoading} variant='contained' onClick={handleSubmit}>
               Entrar
             </Button>
 

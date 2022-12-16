@@ -1,9 +1,9 @@
 import { Box, Button, Card, CardActions, CardContent, Icon, LinearProgress, Link, List, ListItemButton, ListItemIcon, ListItemText, Paper, TextField, Typography } from '@mui/material'
 import { useState } from 'react'
-import * as yup from 'yup'
-
 import { useAppThemeContext } from '../shared/contexts'
-
+import * as yup from 'yup'
+import { UsersService } from '../shared/services/api/users'
+import { ResponseError } from '../shared/types'
 
 const registerSchema = yup.object().shape({
   name: yup.string().min(3).required(),
@@ -20,6 +20,16 @@ export const Register = () => {
   const [passwordError, setPasswordError] = useState('')
   const [confirmPasswordError, setConfirmPasswordError] = useState('')
 
+  const handleSubmit = async () => {
+
+    const response = await UsersService.register({name, password})
+
+    if(response instanceof ResponseError){
+      alert(`Status: ${response.statusCode} - Message: ${response.message}`)
+    }
+
+    console.log(response)
+  }
 
   return(
     <Box width='100vw' height='100vh' display='flex' flexDirection='column' alignItems='center' justifyContent='center'>
@@ -74,7 +84,7 @@ export const Register = () => {
         <CardActions>
           <Box width='100%' display='flex' justifyContent='center'>
 
-            <Button disabled={isLoading} variant='contained' onClick={() => console.log('teste')}>
+            <Button disabled={isLoading} variant='contained' onClick={handleSubmit}>
               Salvar
             </Button>
 
