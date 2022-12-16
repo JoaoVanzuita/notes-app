@@ -26,8 +26,6 @@ export const Login = () => {
     if(response instanceof ResponseError){
       alert(`Status: ${response.statusCode} - Message: ${response.message}`)
     }
-
-    console.log(response)
   }
 
   return(

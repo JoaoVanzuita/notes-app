@@ -1,12 +1,14 @@
 import { Environment } from '../../../environment'
 import { ResponseError } from '../../../types'
-import { User } from '../../../types/User'
+import { Note } from '../../../types/Note'
 import { Api } from '../axios-config'
 
-export const login = async (loginData: User): Promise<undefined | ResponseError> => {
+export const getAllByUser = async (): Promise<Note[] | ResponseError> => {
   try {
 
-    await Api.post('/login', loginData)
+    const { data } = await Api.get('/notes')
+
+    return data
 
   } catch (error) {
 
