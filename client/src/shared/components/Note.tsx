@@ -21,10 +21,10 @@ export const NoteCard: React.FC<TNoteProps> = ({
   const [updatedAt, setUpdatedAt] = useState<Date | null>(noteUpdatedAt ?? null)
 
   return (
-    <Box width={400} padding={3}>
+    <Box width={400} padding={4}>
       <Card elevation={6}>
         <CardContent>
-          <Box padding={1} >
+          <Box padding={1}>
             <TextField variant='filled' size='small' placeholder='Adicione um título...' fullWidth value={title} onChange={ev => setTitle(ev.currentTarget.value)} inputProps={{
               style: {
                 textAlign: 'center',

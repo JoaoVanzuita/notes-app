@@ -38,7 +38,7 @@ export const Login = () => {
 
           Swal.fire({
             titleText: `Ocorreu um erro - Código: ${result.statusCode}`,
-            text: result.message.toString(),
+            text: result.message,
             icon: 'error',
             background: alertBackground,
             color: alertColor

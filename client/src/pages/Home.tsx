@@ -1,5 +1,7 @@
-import { Box, Grid, useMediaQuery, useTheme } from '@mui/material'
+import { Grid } from '@mui/material'
 import { NoteCard } from '../shared/components/Note'
+import { Toolbar } from '../shared/components/Toolbar'
+import { BasePageLayout } from '../shared/layouts/BasePageLayout'
 import { Note } from '../shared/types'
 
 export const Home = () => {
@@ -56,14 +58,20 @@ export const Home = () => {
   ]
 
   return(
+    <BasePageLayout
+      title='Minhas notas'
+      toolbar={<Toolbar
+        showButtonNew
+        showSearchInput
+        showButtonExit
+      />}
+    >
 
-    <Box display='flex'>
-
-      <Grid container gap={1}>
+      <Grid container display='flex' alignItems='center' justifyContent='center'>
 
         {notes.map(note =>(
 
-          <Grid key={note.id} item>
+          <Grid key={note.id} item  >
             <NoteCard
               noteId={note.id}
               noteTitle={note.title}
@@ -75,6 +83,6 @@ export const Home = () => {
         ))}
 
       </Grid>
-    </Box>
+    </BasePageLayout>
   )
 }

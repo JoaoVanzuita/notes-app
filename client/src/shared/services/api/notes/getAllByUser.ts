@@ -1,7 +1,7 @@
 import { Environment } from '../../../environment'
-import { ResponseError } from '../../../types'
 import { Note } from '../../../types/Note'
 import { Api } from '../axios-config'
+import { ResponseError } from '../errors'
 
 export const getAllByUser = async (): Promise<Note[] | ResponseError> => {
   try {

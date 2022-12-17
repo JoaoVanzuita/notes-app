@@ -5,10 +5,10 @@ export const errorInterceptor = (error: AxiosError) => {
 
   const errorData = {
     'status': <number>error.response?.status,
-    'data': <{ message: string }>error.response?.data
+    'message': <string>error.response?.data
   }
 
-  const responseError = new ResponseError(errorData.data.message, errorData.status)
+  const responseError = new ResponseError(errorData.message, errorData.status)
 
   throw responseError
 }
