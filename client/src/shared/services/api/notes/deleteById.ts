@@ -2,15 +2,10 @@ import { Environment } from '../../../environment'
 import { Api } from '../axios-config'
 import { ResponseError } from '../errors'
 
-type TRegisterData = {
-  name: string
-  password: string
-}
+export const deleteById = async (id: number): Promise<number | ResponseError> => {
 
-export const register = async (userData: TRegisterData): Promise<number | ResponseError> => {
   try {
-
-    const { data } = await Api.post('/users', userData)
+    const { data } = await Api.delete(`/notes/${id}`)
 
     return data.id
 

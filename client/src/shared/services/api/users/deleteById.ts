@@ -1,14 +1,13 @@
 import { Environment } from '../../../environment'
-import { Note } from '../../../types/Note'
 import { Api } from '../axios-config'
 import { ResponseError } from '../errors'
 
-export const getAllByUser = async (): Promise<Note[] | ResponseError> => {
+export const deleteById = async (): Promise<number | ResponseError> => {
   try {
 
-    const { data } = await Api.get('/notes')
+    const { data } = await Api.delete('/users')
 
-    return data
+    return data.id
 
   } catch (error) {
 

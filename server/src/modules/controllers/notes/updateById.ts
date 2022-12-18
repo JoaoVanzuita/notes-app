@@ -31,5 +31,6 @@ export const updateById = async (req: Request<IUpdateParams, {}, IUpdateBody>, r
   const note = await NotesService.updateById(id, data.title, data.description, user, actualDate)
 
   return res.json({
-    'id': note.id})
+    'id': note.id
+  })
 }

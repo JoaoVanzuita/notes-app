@@ -1,30 +1,34 @@
 import { Box, Button, Icon, Paper, TextField, Typography, useMediaQuery, useTheme } from '@mui/material'
-import { useState } from 'react'
 
 interface IToolbarProps {
+  textSearch?:string
 
   showSearchInput?:boolean
   showButtonSave?: boolean
   showButtonNew?: boolean
   showButtonDelete?: boolean
-  showButtonExit?: boolean
   showButtonManageAccount?: boolean
+  showButtonBack?: boolean
+  showButtonExit?: boolean
 
   onChangeTextSearch?: (newText: string) => void
   onClickButtonSave?: () => void
   onClickButtonNew?: () => void
   onClickButtonDelete?: () => void
   onClickButtonManageAccount?: () => void
+  onClickButtonBack?: () => void
   onClickButtonExit?: () => void
 }
 
 export const Toolbar: React.FC<IToolbarProps> = ({
+  textSearch,
 
   showSearchInput = false,
   showButtonSave = false,
   showButtonNew = false,
   showButtonDelete = false,
   showButtonManageAccount = false,
+  showButtonBack = false,
   showButtonExit = false,
 
   onChangeTextSearch,
@@ -32,13 +36,15 @@ export const Toolbar: React.FC<IToolbarProps> = ({
   onClickButtonNew,
   onClickButtonDelete,
   onClickButtonManageAccount,
+  onClickButtonBack,
   onClickButtonExit,
 
 }) => {
-  const [textSearch, setTextSearch] = useState('')
   const theme = useTheme()
   const smDown = useMediaQuery(theme.breakpoints.down('sm'))
-  const mdDown = useMediaQuery(theme.breakpoints.down('md'))
+
+  const alertBackground = theme.palette.background.default
+  const alertColor = theme.palette.mode === 'light' ? '#000000' : '#ffffff'
 
   return(
     <Box
@@ -60,9 +66,9 @@ export const Toolbar: React.FC<IToolbarProps> = ({
       >
         {showSearchInput && <TextField
           size='small'
-          label='Pesquisar...'
+          label='Pesquisar por título'
           value={textSearch}
-          onChange={(ev) => onChangeTextSearch?.(ev.currentTarget.value)}
+          onChange={ev => onChangeTextSearch?.(ev.currentTarget.value)}
         />}
 
         {showButtonSave && <Button
@@ -85,7 +91,7 @@ export const Toolbar: React.FC<IToolbarProps> = ({
           startIcon={<Icon>add</Icon>}>
 
           <Typography variant='button' whiteSpace='nowrap' textOverflow='ellipsis' overflow='hidden'>
-            Nova
+            nova nota
           </Typography>
 
         </Button>}
@@ -103,14 +109,15 @@ export const Toolbar: React.FC<IToolbarProps> = ({
         </Button>}
 
 
-        {showButtonManageAccount && <Button variant='contained'
+        {showButtonManageAccount && <Button
+          variant='outlined'
           color='primary'
           onClick={onClickButtonManageAccount}
           disableElevation
           startIcon={<Icon>manage_accounts</Icon>}>
 
           <Typography variant='button' whiteSpace='nowrap' textOverflow='ellipsis' overflow='hidden'>
-            editar conta
+            gerenciar conta
           </Typography>
 
         </Button>}
@@ -131,6 +138,18 @@ export const Toolbar: React.FC<IToolbarProps> = ({
 
           <Typography variant='button' whiteSpace='nowrap' textOverflow='ellipsis' overflow='hidden'>
             sair
+          </Typography>
+
+        </Button>}
+
+        {(!smDown && showButtonBack) && <Button variant='outlined'
+          color='primary'
+          onClick={onClickButtonBack}
+          disableElevation
+          startIcon={<Icon>arrow_back</Icon>}>
+
+          <Typography variant='button' whiteSpace='nowrap' textOverflow='ellipsis' overflow='hidden'>
+            voltar
           </Typography>
 
         </Button>}

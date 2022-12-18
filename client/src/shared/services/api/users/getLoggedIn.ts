@@ -8,7 +8,7 @@ export const getLoggedIn = async (): Promise<User | ResponseError> => {
 
     const { data } = await Api.get('/users')
 
-    return data
+    return data.user
 
   } catch (error) {
 

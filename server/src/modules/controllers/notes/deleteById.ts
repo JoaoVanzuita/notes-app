@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 import { validation } from '../../middleware'
-import * as yup from 'yup'
 import { NotesService } from '../../services'
+import * as yup from 'yup'
 
 interface IDeleteParams {
   id?: number

@@ -1,18 +1,14 @@
 import { Environment } from '../../../environment'
+import { Note } from '../../../types/Note'
 import { Api } from '../axios-config'
 import { ResponseError } from '../errors'
 
-type TRegisterData = {
-  name: string
-  password: string
-}
-
-export const register = async (userData: TRegisterData): Promise<number | ResponseError> => {
+export const getByDate = async (start: Date, end: Date): Promise<Note[] | ResponseError> => {
   try {
 
-    const { data } = await Api.post('/users', userData)
+    const { data } = await Api.get(`/notes/date?start=${start}&end=${end}`)
 
-    return data.id
+    return data.notes
 
   } catch (error) {
 

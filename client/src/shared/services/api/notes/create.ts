@@ -1,16 +1,11 @@
 import { Environment } from '../../../environment'
+import { Note } from '../../../types'
 import { Api } from '../axios-config'
 import { ResponseError } from '../errors'
 
-type TRegisterData = {
-  name: string
-  password: string
-}
-
-export const register = async (userData: TRegisterData): Promise<number | ResponseError> => {
+export const create = async (note: Note): Promise<number | ResponseError> => {
   try {
-
-    const { data } = await Api.post('/users', userData)
+    const { data } = await Api.post('/notes', note)
 
     return data.id
 

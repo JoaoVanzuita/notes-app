@@ -14,16 +14,18 @@ const loginSchema = yup.object().shape({
 
 export const Login = () => {
   const theme = useTheme()
-  const alertBackground = theme.palette.background.default
-  const alertColor = theme.palette.mode === 'light' ? '#000000' : '#ffffff'
+  const navigate = useNavigate()
   const authService = useAuthContext()
   const [ isLoading, setIsLoading ] = useState(false)
   const {toggleTheme} = useAppThemeContext()
+  
+  const alertBackground = theme.palette.background.default
+  const alertColor = theme.palette.mode === 'light' ? '#000000' : '#ffffff'
+
   const [name, setName] = useState('')
   const [password, setPassword] = useState('')
   const [nameError, setNameError] = useState('')
   const [passwordError, setPasswordError] = useState('')
-  const navigate = useNavigate()
 
   const handleSubmit = async () => {
     setIsLoading(true)

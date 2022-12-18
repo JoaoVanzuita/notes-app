@@ -10,7 +10,7 @@ interface IGetByTitleQuery {
 
 export const getByTitleValidation = validation({
   query: yup.object().shape({
-    title: yup.string().min(1).required()
+    title: yup.string().notRequired()
   })
 })
 

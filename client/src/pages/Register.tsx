@@ -12,7 +12,7 @@ YupPassword(yup)
 const registerSchema = yup.object().shape({
   name: yup.string().min(3).required(),
   password: yup.string().min(8).required(),
-  confirmPassword: yup.string().oneOf([yup.ref('password'), null], 'passwords does not match')
+  confirmPassword: yup.string().required().oneOf([yup.ref('password'), null], 'As senhas não coincidem')
 })
 
 export const Register = () => {

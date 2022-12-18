@@ -15,7 +15,6 @@ routes.put('/users', UsersController.updateValidation, UsersController.updateByI
 routes.delete('/users', UsersController.deleteById)
 
 routes.post('/notes', NotesController.createValidation, NotesController.create)
-routes.get('/notes', NotesController.getAllByUser)
 routes.put('/notes/:id', NotesController.updateValidation, NotesController.updateById)
 routes.delete('/notes/:id', NotesController.deleteValidation, NotesController.deleteById)
 routes.get('/notes/title', NotesController.getByTitleValidation, NotesController.getByTitle)

@@ -1,4 +1,4 @@
-import { Box, Icon, IconButton, List, ListItemButton, ListItemIcon, ListItemText, Paper, Typography, useMediaQuery, useTheme } from '@mui/material'
+import { Box, Icon, List, ListItemButton, ListItemIcon, ListItemText, Paper, Typography, useMediaQuery, useTheme } from '@mui/material'
 import { useAppThemeContext } from '../contexts'
 
 interface IBasePageLayoutProps{
@@ -9,8 +9,6 @@ interface IBasePageLayoutProps{
 
 export const BasePageLayout: React.FC<IBasePageLayoutProps> = ({children, title, toolbar}) => {
   const theme = useTheme()
-  const smDown = useMediaQuery(theme.breakpoints.down('sm'))
-  const mdDown = useMediaQuery(theme.breakpoints.down('md'))
   const { toggleTheme }  = useAppThemeContext()
 
   return(
@@ -27,14 +25,14 @@ export const BasePageLayout: React.FC<IBasePageLayoutProps> = ({children, title,
         </List>
       </Box>
 
-      <Box padding={1} height={theme.spacing(smDown ? 6 : mdDown ? 8 : 12)} display='flex' alignItems='center' gap={1}>
+      <Box padding={1} height={theme.spacing(12)} display='flex' alignItems='center' gap={1}>
 
         <Typography
           paddingLeft={5}
           overflow='hidden'
           whiteSpace='nowrap'
           textOverflow='elipses'
-          variant={smDown ? 'h6' : mdDown ? 'h5' : 'h4'}
+          variant='h4'
         >
           {title}
         </Typography>
