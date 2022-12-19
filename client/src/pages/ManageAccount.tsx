@@ -1,20 +1,18 @@
-import { Card, CardContent, Box, Typography, TextField, CardActions, Button, LinearProgress, useTheme } from '@mui/material'
-import { useCallback, useEffect, useState } from 'react'
+import { Box, Card, CardContent, Typography, TextField, CardActions, Button, LinearProgress, useTheme } from '@mui/material'
+import { useState, useCallback, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Toolbar } from '../shared/components'
 import { useAuthContext } from '../shared/contexts/auth/AuthContext'
 import { BasePageLayout } from '../shared/layouts/BasePageLayout'
 import { ResponseError } from '../shared/services/api/errors'
 import { UsersService } from '../shared/services/api/users'
+import { Toolbar } from '../shared/components'
 import Swal from 'sweetalert2'
-import YupPassword from 'yup-password'
 import * as yup from 'yup'
-YupPassword(yup)
 
 const updateAccountSchema = yup.object().shape({
   name: yup.string().min(3).required(),
   password: yup.string().min(8).required(),
-  confirmPassword: yup.string().required().oneOf([yup.ref('password'), null], 'As senhas não coincidem')
+  confirmPassword: yup.string().required().oneOf([yup.ref('password'), null])
 })
 
 export const ManageAccount = () => {
@@ -51,7 +49,7 @@ export const ManageAccount = () => {
     fetchUser()
   },[])
 
-  const handleSubmit = useCallback(async () => {
+  const handleSubmit = async () => {
     setIsLoading(true)
 
     updateAccountSchema.validate({name, password, confirmPassword}, { abortEarly: false })
@@ -90,7 +88,7 @@ export const ManageAccount = () => {
           }
         })
       })
-  },[])
+  }
 
   return(
     <BasePageLayout
@@ -99,6 +97,7 @@ export const ManageAccount = () => {
         showButtonSave
         showButtonBack
         showButtonExit
+        showButtonDelete
 
         onClickButtonBack={() => navigate('/home')}
       />}

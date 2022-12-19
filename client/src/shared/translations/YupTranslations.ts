@@ -3,7 +3,8 @@ import { setLocale } from 'yup'
 setLocale({
   mixed: {
     default: 'Campo não é válido',
-    required: 'O campo é obrigatório'
+    required: 'O campo é obrigatório',
+    oneOf: 'As senhas não coincidem'
   },
   string: {
     email: () => 'O campo precisa conter uma email válido',

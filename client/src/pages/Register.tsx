@@ -5,14 +5,12 @@ import { UsersService } from '../shared/services/api/users'
 import { ResponseError } from '../shared/services/api/errors'
 import { useNavigate } from 'react-router-dom'
 import Swal from 'sweetalert2'
-import YupPassword from 'yup-password'
 import * as yup from 'yup'
-YupPassword(yup)
 
 const registerSchema = yup.object().shape({
   name: yup.string().min(3).required(),
   password: yup.string().min(8).required(),
-  confirmPassword: yup.string().required().oneOf([yup.ref('password'), null], 'As senhas não coincidem')
+  confirmPassword: yup.string().required().oneOf([yup.ref('password'), null])
 })
 
 export const Register = () => {
