@@ -16,7 +16,9 @@ export class Note {
   @Column({ name: 'updated_on', type: 'date' })
     updatedOn: Date
 
-  @ManyToOne(() => User, user => user.notes)
+  @ManyToOne(() => User, user => user.notes, {
+    onDelete: 'CASCADE'
+  })
   @JoinColumn({ name: 'user_id' })
     user: User
 }

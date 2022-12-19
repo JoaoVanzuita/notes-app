@@ -27,7 +27,7 @@ export const ManageAccount = () => {
   const [nameError, setNameError] = useState('')
   const [passwordError, setPasswordError] = useState('')
   const [confirmPasswordError, setConfirmPasswordError] = useState('')
-  const { getLoggedIn } = useAuthContext()
+  const { getLoggedIn, signout } = useAuthContext()
 
   const fetchUser = useCallback(async () => {
 
@@ -90,15 +90,46 @@ export const ManageAccount = () => {
       })
   }
 
+  const handleDeleteAccount = async () => {
+
+    await Swal.fire({
+      titleText: 'Tem certeza de que deseja excluir sua conta?',
+      text: 'Suas notas serão excluídas e você não poderá recuperá-las',
+      icon: 'warning',
+      background: alertBackground,
+      color: alertColor,
+      showCancelButton: true,
+      cancelButtonColor: '#d33',
+      cancelButtonText: 'cancelar',
+      confirmButtonText: 'Excluir'
+    }).then(async (result) => {
+      if(result.isConfirmed){
+        const resultDelete = await UsersService.deleteById()
+
+        if(resultDelete instanceof ResponseError){
+          Swal.fire({
+            titleText: `Ocorreu um erro - Código: ${resultDelete.statusCode}`,
+            text: resultDelete.message,
+            icon: 'error',
+            background: alertBackground,
+            color: alertColor
+          })
+          return
+        }
+
+        navigate('/login')
+      }
+    })
+  }
+
   return(
     <BasePageLayout
       title='Gerenciar conta'
       toolbar={<Toolbar
-        showButtonSave
         showButtonBack
-        showButtonExit
         showButtonDelete
 
+        onClickButtonDeleteAccount={handleDeleteAccount}
         onClickButtonBack={() => navigate('/home')}
       />}
     >

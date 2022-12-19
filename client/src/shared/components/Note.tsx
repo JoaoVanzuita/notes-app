@@ -20,10 +20,10 @@ export const NoteCard: React.FC<TNoteProps> = ({
   onClickButtonDelete
 }) => {
 
-  const [id, setId] = useState(noteId ?? 0)
+  const [id] = useState(noteId ?? 0)
   const [title, setTitle] = useState(noteTitle ?? '')
   const [description, setDescription] = useState(noteDescription ?? '')
-  const [updatedOn, setUpdatedOn] = useState<Date>(new Date(noteUpdatedOn))
+  const [updatedOn] = useState<Date>(new Date(noteUpdatedOn))
 
   const handleSave = () => {
     onClickButtonSave({id, title, description, updatedOn: updatedOn})

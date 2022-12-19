@@ -74,7 +74,7 @@ export const Login = () => {
             <ListItemIcon>
               <Icon>dark_mode</Icon>
             </ListItemIcon>
-            <ListItemText primary='Alternar tema' />
+            <ListItemText primary='Tema' />
           </ListItemButton>
         </List>
       </Box>

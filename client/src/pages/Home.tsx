@@ -77,12 +77,32 @@ export const Home = () => {
 
   const handleDelete = useCallback(async (id: number) => {
 
-    const result = await NotesService.deleteById(id)
+    await Swal.fire({
+      titleText: 'Tem certeza de que deseja excluir essa nota?',
+      text: 'Ela será perdida para sempre!',
+      icon: 'warning',
+      background: alertBackground,
+      color: alertColor,
+      showCancelButton: true,
+      cancelButtonColor: '#d33',
+      cancelButtonText: 'cancelar',
+      confirmButtonText: 'Excluir'
+    }).then(async (result) => {
+      if(result.isConfirmed){
+        const resultDelete = await NotesService.deleteById(id)
 
-    if(result instanceof ResponseError){
-      alert(result.message.toString())
-      return
-    }
+        if(resultDelete instanceof ResponseError){
+          Swal.fire({
+            titleText: `Ocorreu um erro - Código: ${resultDelete.statusCode}`,
+            text: resultDelete.message,
+            icon: 'error',
+            background: alertBackground,
+            color: alertColor
+          })
+          return
+        }
+      }
+    })
 
     fetchNotes()
   },[])
@@ -114,7 +134,7 @@ export const Home = () => {
     }
 
     setSearchParams('')
-    window.location.reload()
+    navigate('/login')
   }, [])
 
   return(

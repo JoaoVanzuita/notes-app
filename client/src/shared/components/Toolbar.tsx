@@ -4,7 +4,6 @@ interface IToolbarProps {
   textSearch?:string
 
   showSearchInput?:boolean
-  showButtonSave?: boolean
   showButtonNew?: boolean
   showButtonDelete?: boolean
   showButtonManageAccount?: boolean
@@ -12,9 +11,8 @@ interface IToolbarProps {
   showButtonExit?: boolean
 
   onChangeTextSearch?: (newText: string) => void
-  onClickButtonSave?: () => void
   onClickButtonNew?: () => void
-  onClickButtonDelete?: () => void
+  onClickButtonDeleteAccount?: () => void
   onClickButtonManageAccount?: () => void
   onClickButtonBack?: () => void
   onClickButtonExit?: () => void
@@ -24,7 +22,6 @@ export const Toolbar: React.FC<IToolbarProps> = ({
   textSearch,
 
   showSearchInput = false,
-  showButtonSave = false,
   showButtonNew = false,
   showButtonDelete = false,
   showButtonManageAccount = false,
@@ -32,9 +29,8 @@ export const Toolbar: React.FC<IToolbarProps> = ({
   showButtonExit = false,
 
   onChangeTextSearch,
-  onClickButtonSave,
   onClickButtonNew,
-  onClickButtonDelete,
+  onClickButtonDeleteAccount,
   onClickButtonManageAccount,
   onClickButtonBack,
   onClickButtonExit,
@@ -42,9 +38,6 @@ export const Toolbar: React.FC<IToolbarProps> = ({
 }) => {
   const theme = useTheme()
   const smDown = useMediaQuery(theme.breakpoints.down('sm'))
-
-  const alertBackground = theme.palette.background.default
-  const alertColor = theme.palette.mode === 'light' ? '#000000' : '#ffffff'
 
   return(
     <Box
@@ -71,20 +64,7 @@ export const Toolbar: React.FC<IToolbarProps> = ({
           onChange={ev => onChangeTextSearch?.(ev.currentTarget.value)}
         />}
 
-        {showButtonSave && <Button
-          variant='contained'
-          color='primary'
-          onClick={onClickButtonSave}
-          disableElevation
-          startIcon={<Icon>save</Icon>}>
-
-          <Typography variant='button' whiteSpace='nowrap' textOverflow='ellipsis' overflow='hidden'>
-            Salvar
-          </Typography>
-
-        </Button>}
-
-        {showButtonNew && <Button variant={showButtonSave ? 'outlined' : 'contained'}
+        {showButtonNew && <Button variant='contained'
           color='primary'
           onClick={onClickButtonNew}
           disableElevation
@@ -98,7 +78,7 @@ export const Toolbar: React.FC<IToolbarProps> = ({
 
         {showButtonDelete && <Button variant='outlined'
           color='primary'
-          onClick={onClickButtonDelete}
+          onClick={onClickButtonDeleteAccount}
           disableElevation
           startIcon={<Icon>delete</Icon>}>
 

@@ -49,6 +49,7 @@ export const AuthProvider: React.FC<IAuthProviderProps> = ({children}) => {
     }
 
     setIsAuthenticated(false)
+
   }
 
   const getLoggedIn = async () => await UsersService.getLoggedIn()
