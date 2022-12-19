@@ -11,8 +11,8 @@ interface IUpdateBody {
 
 export const updateValidation = validation({
   body: yup.object().shape({
-    name: yup.string().min(3).required(),
-    password: yup.string().min(8).required()
+    name: yup.string().min(3, 'O nome deve ter no mínimo 3 caracteres').required('O nome é obrigatório'),
+    password: yup.string().min(8, 'A senha deve ter no mínimo 8 caracteres').required('A senha é obrigatória')
   })
 })
 
@@ -23,9 +23,7 @@ export const updateById = async (req: Request<{}, {}, IUpdateBody>, res: Respons
   const encryptedPassword = await bcrypt.hash(data.password, 10)
 
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  const newUser = await UsersService.updateById(id!, data.name, encryptedPassword)
+  await UsersService.updateById(id!, data.name, encryptedPassword)
 
-  return res.json({
-    'id': newUser.id
-  })
+  return res.status(204).send()
 }

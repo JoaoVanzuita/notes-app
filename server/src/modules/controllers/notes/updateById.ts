@@ -17,8 +17,8 @@ export const updateValidation = validation({
     id: yup.number().moreThan(0).required()
   }),
   body: yup.object().shape({
-    title: yup.string().min(3).required(),
-    description: yup.string().min(3).max(500).required()
+    title: yup.string().min(3, 'O título deve ter no mínimo 3 caracteres').required('O título é obrigatório para atualizar a nota'),
+    description: yup.string().min(3, 'A descrição deve ter no mínimo 3 caracteres').max(500, 'A descrição deve ter no máximo 3 caracteres').required('A descrição é obrigatória para atualizar a nota')
   })
 })
 
@@ -28,9 +28,7 @@ export const updateById = async (req: Request<IUpdateParams, {}, IUpdateBody>, r
   const user = req.user
   const actualDate = new Date()
 
-  const note = await NotesService.updateById(id, data.title, data.description, user, actualDate)
+  await NotesService.updateById(id, data.title, data.description, user, actualDate)
 
-  return res.json({
-    'id': note.id
-  })
+  return res.status(204).send()
 }

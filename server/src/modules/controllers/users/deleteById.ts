@@ -5,9 +5,7 @@ export const deleteById = async (req: Request, res: Response) => {
   const id = req.user.id
 
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  const idDeleted = await UsersService.deleteById(id!)
+  await UsersService.deleteById(id!)
 
-  return res.json({
-    'id': idDeleted
-  })
+  return res.status(204).send()
 }

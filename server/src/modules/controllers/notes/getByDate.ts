@@ -2,7 +2,6 @@ import { Request, Response } from 'express'
 import { validation } from '../../middleware'
 import { NotesService } from '../../services'
 import * as yup from 'yup'
-import { ServerError } from '../../errors/ServerError'
 
 interface IGetByDateQuery {
   start?: Date
@@ -23,9 +22,6 @@ export const getByDate = async (req: Request<{}, {}, {}, IGetByDateQuery>, res: 
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const notes = await NotesService.getByDate(start!, end!, user)
 
-  if (!notes.length) {
-    throw new ServerError('No notes found', 404)
-  }
 
   return res.json({
     'notes': notes

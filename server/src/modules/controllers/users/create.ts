@@ -11,8 +11,8 @@ interface ICreate {
 
 export const createValidation = validation({
   body: yup.object().shape({
-    name: yup.string().min(3).required(),
-    password: yup.string().min(8).required()
+    name: yup.string().min(3, 'O nome deve ter no mínimo 3 caracteres').required('O nome é obrigatório'),
+    password: yup.string().min(8, 'A senha deve ter no mínimo 8 caracteres').required('A senha é obrigatória')
   })
 })
 
@@ -21,9 +21,7 @@ export const create = async (req: Request<{}, {}, ICreate>, res: Response) => {
 
   const encryptedPassword = await bcrypt.hash(data.password, 10)
 
-  const user = await UsersService.create(data.name, encryptedPassword)
+  await UsersService.create(data.name, encryptedPassword)
 
-  return res.status(201).json({
-    'id': user.id
-  })
+  return res.status(201).send()
 }

@@ -9,7 +9,7 @@ interface IDeleteParams {
 
 export const deleteValidation = validation({
   params: yup.object().shape({
-    id: yup.number().moreThan(0).required()
+    id: yup.number().moreThan(0, 'Id deve ser maior que 0').required('Id é obrigatório')
   })
 })
 
@@ -18,9 +18,7 @@ export const deleteById = async (req: Request<IDeleteParams>, res: Response) => 
   const user = req.user
 
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  const deletedId = await NotesService.deleteById(id!, user)
+  await NotesService.deleteById(id!, user)
 
-  res.json({
-    'id': deletedId
-  })
+  res.status(204).send()
 }

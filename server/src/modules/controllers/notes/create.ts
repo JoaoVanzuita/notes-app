@@ -11,7 +11,7 @@ interface ICreate {
 export const createValidation = validation({
   body: yup.object().shape({
     title: yup.string().notRequired(),
-    description: yup.string().max(500).notRequired()
+    description: yup.string().max(500, 'A descrição pode ter no máximo 500 caracteres').notRequired()
   })
 })
 
