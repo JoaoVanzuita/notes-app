@@ -66,7 +66,7 @@ export const Toolbar: React.FC<IToolbarProps> = ({
       >
         {showSearchInput && <TextField
           size='small'
-          label='Pesquisar por título'
+          label={smDown ? 'Pesquisar' : 'Pesquisar por título'}
           value={textSearch}
           onChange={ev => onChangeTextSearch?.(ev.currentTarget.value)}
         />}
@@ -117,7 +117,7 @@ export const Toolbar: React.FC<IToolbarProps> = ({
           startIcon={<Icon>manage_accounts</Icon>}>
 
           <Typography variant='button' whiteSpace='nowrap' textOverflow='ellipsis' overflow='hidden'>
-            gerenciar conta
+            conta
           </Typography>
 
         </Button>}

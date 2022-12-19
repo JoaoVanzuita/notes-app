@@ -30,7 +30,7 @@ export const NoteCard: React.FC<TNoteProps> = ({
   }
 
   return (
-    <Box width={400} padding={4}>
+    <Box  padding={3}>
       <Card elevation={6}>
         <CardContent>
           <Box padding={1}>
