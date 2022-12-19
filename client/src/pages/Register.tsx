@@ -71,7 +71,7 @@ export const Register = () => {
   return(
     <Box width='100vw' height='100vh' display='flex' flexDirection='column' alignItems='center' justifyContent='center'>
 
-      <Box position='absolute' top='5px' right='10px'>
+      <Box position='absolute' top='0' right='0' padding={1}>
         <List component='nav'>
           <ListItemButton onClick={toggleTheme} component={Paper}>
             <ListItemIcon>

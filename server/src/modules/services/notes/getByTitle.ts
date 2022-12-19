@@ -13,7 +13,8 @@ export const getByTitle = async (title: string, user: IUser) => {
       user: {
         id: user.id
       }
-    }
+    },
+    order: { updatedOn: 'DESC' }
   })
 
   return notes
