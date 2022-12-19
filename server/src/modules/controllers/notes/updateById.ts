@@ -1,6 +1,7 @@
 import { Request, Response } from 'express'
 import { validation } from '../../middleware'
 import { NotesService } from '../../services'
+import { Environment } from '../../environment'
 import * as yup from 'yup'
 
 interface IUpdateBody {
@@ -9,16 +10,16 @@ interface IUpdateBody {
 }
 
 interface IUpdateParams {
-  id?: number
+  id: number
 }
 
 export const updateValidation = validation({
   params: yup.object().shape({
-    id: yup.number().moreThan(0).required()
+    id: yup.number().moreThan(0, Environment.INVALID_ID).required()
   }),
   body: yup.object().shape({
-    title: yup.string().min(3, 'O título deve ter no mínimo 3 caracteres').required('O título é obrigatório para atualizar a nota'),
-    description: yup.string().min(3, 'A descrição deve ter no mínimo 3 caracteres').max(500, 'A descrição deve ter no máximo 3 caracteres').required('A descrição é obrigatória para atualizar a nota')
+    title: yup.string().min(3, Environment.TOO_SHORT_TITLE).max(100, Environment.TOO_LONG_TITLE).required(Environment.REQUIRED_TITLE),
+    description: yup.string().min(3, Environment.TOO_SHORT_DESC).max(500, Environment.TOO_SHORT_DESC).required(Environment.REQUIRED_DESC)
   })
 })
 

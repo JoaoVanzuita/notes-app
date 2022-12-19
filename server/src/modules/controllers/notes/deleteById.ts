@@ -1,15 +1,16 @@
 import { Request, Response } from 'express'
 import { validation } from '../../middleware'
 import { NotesService } from '../../services'
+import { Environment } from '../../environment'
 import * as yup from 'yup'
 
 interface IDeleteParams {
-  id?: number
+  id: number
 }
 
 export const deleteValidation = validation({
   params: yup.object().shape({
-    id: yup.number().moreThan(0, 'Id deve ser maior que 0').required('Id é obrigatório')
+    id: yup.number().moreThan(0, Environment.INVALID_ID).required(Environment.REQUIRED_ID)
   })
 })
 

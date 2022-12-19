@@ -3,6 +3,7 @@ import { ServerError } from '../errors/ServerError'
 import { UserRepository } from '../repositories/UserRepository'
 import { JwtPayload } from '../types'
 import jwt from 'jsonwebtoken'
+import { Environment } from '../environment'
 
 const JWT_SECRET = process.env.JWT_SECRET ?? ''
 
@@ -11,7 +12,7 @@ export const authMiddleware = async (req: Request, res: Response, next: NextFunc
   const accessToken = req.cookies.accessToken
 
   if (!accessToken) {
-    throw new ServerError('Unauthorized user', 401)
+    throw new ServerError(Environment.USER_401, 401)
   }
 
   const { id } = jwt.verify(accessToken, JWT_SECRET) as JwtPayload
@@ -21,7 +22,7 @@ export const authMiddleware = async (req: Request, res: Response, next: NextFunc
   })
 
   if (!user) {
-    throw new ServerError('Unauthorized user', 401)
+    throw new ServerError(Environment.USER_401, 401)
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

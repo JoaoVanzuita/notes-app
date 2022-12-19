@@ -1,3 +1,4 @@
+import { Environment } from '../../environment'
 import { ServerError } from '../../errors/ServerError'
 import { UserRepository } from '../../repositories'
 
@@ -8,7 +9,7 @@ export const create = async (name: string, password: string) => {
   })
 
   if (userAlreadyExists) {
-    throw new ServerError('User already exists')
+    throw new ServerError(Environment.NAME_ALREADY_USED)
   }
 
   const user = UserRepository.create({
@@ -16,7 +17,5 @@ export const create = async (name: string, password: string) => {
     password
   })
 
-  const newUser = await UserRepository.save(user)
-
-  return newUser
+  await UserRepository.save(user)
 }

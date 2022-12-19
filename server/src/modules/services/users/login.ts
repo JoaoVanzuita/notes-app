@@ -1,5 +1,6 @@
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
+import { Environment } from '../../environment'
 
 import { ServerError } from '../../errors/ServerError'
 import { UserRepository } from '../../repositories'
@@ -13,7 +14,7 @@ export const login = async (name: string, password:string) => {
   })
 
   if(!user) {
-    throw new ServerError('invalid credentials')
+    throw new ServerError(Environment.INVALID_LOGIN)
   }
 
   const result = await UserRepository
@@ -25,7 +26,7 @@ export const login = async (name: string, password:string) => {
   const verifyPassword = await bcrypt.compare(password, result.password)
 
   if (!verifyPassword) {
-    throw new ServerError('invalid credentials')
+    throw new ServerError(Environment.INVALID_LOGIN)
   }
 
   const token = jwt.sign({

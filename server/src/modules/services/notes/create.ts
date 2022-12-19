@@ -13,7 +13,5 @@ export const create = async (title: string, description: string, user: IUser, up
     user
   })
 
-  const newNote = await NoteRepository.save(note)
-
-  return newNote
+  await NoteRepository.save(note)
 }

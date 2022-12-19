@@ -1,3 +1,4 @@
+import { Environment } from '../../environment'
 import { ServerError } from '../../errors/ServerError'
 import { UserRepository } from '../../repositories'
 
@@ -8,12 +9,10 @@ export const deleteById = async (id:number) => {
   })
 
   if(!userExists){
-    throw new ServerError('User not found', 404)
+    throw new ServerError(Environment.USER_404, 404)
   }
 
   await UserRepository.delete({
     id
   })
-
-  return id
 }

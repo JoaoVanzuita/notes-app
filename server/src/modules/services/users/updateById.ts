@@ -1,3 +1,4 @@
+import { Environment } from '../../environment'
 import { ServerError } from '../../errors/ServerError'
 import { UserRepository } from '../../repositories'
 
@@ -8,7 +9,7 @@ export const updateById = async (id: number, name: string, password: string) => 
   })
 
   if(!userExists){
-    throw new ServerError('User not found', 404)
+    throw new ServerError(Environment.USER_404, 404)
   }
 
   const user = UserRepository.create({
@@ -17,7 +18,5 @@ export const updateById = async (id: number, name: string, password: string) => 
     password
   })
 
-  const newUser = await UserRepository.save(user)
-
-  return newUser
+  await UserRepository.save(user)
 }

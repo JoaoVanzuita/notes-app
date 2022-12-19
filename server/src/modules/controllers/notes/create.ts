@@ -1,6 +1,7 @@
 import { Request, Response } from 'express'
 import { validation } from '../../middleware'
 import { NotesService } from '../../services'
+import { Environment } from '../../environment'
 import * as yup from 'yup'
 
 interface ICreate {
@@ -10,8 +11,8 @@ interface ICreate {
 
 export const createValidation = validation({
   body: yup.object().shape({
-    title: yup.string().notRequired(),
-    description: yup.string().max(500, 'A descrição pode ter no máximo 500 caracteres').notRequired()
+    title: yup.string().min(3, Environment.TOO_SHORT_TITLE).max(100, Environment.TOO_LONG_TITLE).notRequired(),
+    description: yup.string().min(3, Environment.TOO_SHORT_DESC).max(500, Environment.TOO_LONG_DESC).notRequired()
   })
 })
 
@@ -21,9 +22,7 @@ export const create = async (req: Request<{}, {}, ICreate>, res: Response) => {
   const user = req.user
   const actualDate = new Date()
 
-  const note = await NotesService.create(data.title, data.description, user, actualDate)
+  await NotesService.create(data.title, data.description, user, actualDate)
 
-  res.json({
-    'id': note.id
-  })
+  res.status(204).send()
 }
