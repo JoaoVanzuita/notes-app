@@ -6,7 +6,7 @@ type TNoteProps = {
   noteId?: number
   noteTitle?: string
   noteDescription?: string
-  noteUpdatedAt?: Date
+  noteUpdatedOn: Date
   onClickButtonSave: (note: Note) => Promise<void>
   onClickButtonDelete: () => void
 }
@@ -15,7 +15,7 @@ export const NoteCard: React.FC<TNoteProps> = ({
   noteId,
   noteTitle,
   noteDescription,
-  noteUpdatedAt,
+  noteUpdatedOn,
   onClickButtonSave,
   onClickButtonDelete
 }) => {
@@ -23,10 +23,10 @@ export const NoteCard: React.FC<TNoteProps> = ({
   const [id, setId] = useState(noteId ?? 0)
   const [title, setTitle] = useState(noteTitle ?? '')
   const [description, setDescription] = useState(noteDescription ?? '')
-  const [updatedAt, setUpdatedAt] = useState<Date>(noteUpdatedAt ?? new Date())
+  const [updatedOn, setUpdatedOn] = useState<Date>(new Date(noteUpdatedOn))
 
   const handleSave = () => {
-    onClickButtonSave({id, title, description, updatedAt})
+    onClickButtonSave({id, title, description, updatedOn: updatedOn})
   }
 
   return (
@@ -62,10 +62,10 @@ export const NoteCard: React.FC<TNoteProps> = ({
               </Button>
             </Box>
 
-            {updatedAt && <Box textAlign='end'>
+            {updatedOn && <Box textAlign='end'>
 
               <Typography variant='subtitle1'>
-                {updatedAt.toLocaleDateString()}
+                {updatedOn.toLocaleDateString('pt-BR', {timeZone: 'UTC'})}
               </Typography>
             </Box>}
 

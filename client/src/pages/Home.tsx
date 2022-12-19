@@ -1,7 +1,6 @@
 import { CircularProgress, Grid, Typography, useTheme } from '@mui/material'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
-import Swal from 'sweetalert2'
 import { NoteCard } from '../shared/components/Note'
 import { Toolbar } from '../shared/components/Toolbar'
 import { useAuthContext } from '../shared/contexts/auth/AuthContext'
@@ -10,6 +9,7 @@ import { BasePageLayout } from '../shared/layouts/BasePageLayout'
 import { ResponseError } from '../shared/services/api/errors'
 import { NotesService } from '../shared/services/api/notes'
 import { Note } from '../shared/types'
+import Swal from 'sweetalert2'
 
 export const Home = () => {
   const alertBackground = useTheme().palette.background.default
@@ -62,7 +62,7 @@ export const Home = () => {
     const note = {
       title: '',
       description: '',
-      updatedAt: new Date()
+      updatedOn: new Date()
     }
 
     const result = await NotesService.create(note)
@@ -150,7 +150,7 @@ export const Home = () => {
               noteId={note.id}
               noteTitle={note.title}
               noteDescription={note.description}
-              noteUpdatedAt={note.updatedAt}
+              noteUpdatedOn={note.updatedOn}
               onClickButtonSave={handleSave}
               // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
               onClickButtonDelete={() => handleDelete(note.id!)}
