@@ -57,7 +57,7 @@ export const Toolbar: React.FC<IToolbarProps> = ({
         gap={1}
         alignItems='center'
       >
-        {showSearchInput && <TextField
+        {!smDown && showSearchInput && <TextField
           size='small'
           label={smDown ? 'Pesquisar' : 'Pesquisar por título'}
           value={textSearch}

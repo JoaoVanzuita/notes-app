@@ -1,4 +1,4 @@
-import { Box, Card, CardContent, Typography, TextField, CardActions, Button, LinearProgress, useTheme } from '@mui/material'
+import { Box, Card, CardContent, Typography, TextField, CardActions, Button, LinearProgress, useTheme, IconButton, InputAdornment } from '@mui/material'
 import { useState, useCallback, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuthContext } from '../shared/contexts/auth/AuthContext'
@@ -8,6 +8,7 @@ import { UsersService } from '../shared/services/api/users'
 import { Toolbar } from '../shared/components'
 import Swal from 'sweetalert2'
 import * as yup from 'yup'
+import { Visibility, VisibilityOff } from '@mui/icons-material'
 
 const updateAccountSchema = yup.object().shape({
   name: yup.string().min(3).required(),
@@ -29,6 +30,9 @@ export const ManageAccount = () => {
   const [passwordError, setPasswordError] = useState('')
   const [confirmPasswordError, setConfirmPasswordError] = useState('')
   const { getLoggedIn } = useAuthContext()
+
+  const [showPass, setShowPass] = useState(false)
+  const [showConfirmPass, setShowConfirmPass] = useState(false)
 
   const fetchUser = useCallback(async () => {
 
@@ -176,21 +180,47 @@ export const ManageAccount = () => {
                 onChange={ev => setName(ev.currentTarget.value)}
                 onKeyDown={() => setNameError('')}
               />
-              <TextField fullWidth name='password' label='Senha' type='password'
+              <TextField fullWidth name='password' label='Senha'
+                type={showPass ? 'text' : 'password'}
                 value={password}
                 error={!!passwordError}
                 disabled={isLoading}
                 helperText={passwordError}
                 onChange={ev => setPassword(ev.currentTarget.value)}
                 onKeyDown={() => setPasswordError('')}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment
+                      position='end'>
+                      <IconButton
+                        onClick={() => setShowPass(!showPass)}
+                      >
+                        {showPass ? <Visibility /> : <VisibilityOff />}
+                      </IconButton>
+                    </InputAdornment>
+                  )
+                }}
               />
-              <TextField fullWidth name='confirmPassword' label='Confirmar senha' type='password'
+              <TextField fullWidth name='confirmPassword' label='Confirmar senha'
+                type={showConfirmPass ? 'text' : 'password'}
                 value={confirmPassword}
                 error={!!confirmPasswordError}
                 disabled={isLoading}
                 helperText={confirmPasswordError}
                 onChange={ev => setConfirmPassword(ev.currentTarget.value)}
                 onKeyDown={() => setConfirmPasswordError('')}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment
+                      position='end'>
+                      <IconButton
+                        onClick={() => setShowConfirmPass(!showConfirmPass)}
+                      >
+                        {showConfirmPass ? <Visibility /> : <VisibilityOff />}
+                      </IconButton>
+                    </InputAdornment>
+                  )
+                }}
               />
             </Box>
 

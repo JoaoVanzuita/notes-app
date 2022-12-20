@@ -1,11 +1,11 @@
-import { Box, Button, Card, CardActions, CardContent, Icon, LinearProgress, List, ListItemButton, ListItemIcon, ListItemText, Paper, TextField, Typography, useTheme } from '@mui/material'
+import { Box, Button, Card, CardActions, CardContent, Icon, IconButton, InputAdornment, LinearProgress, List, ListItemButton, ListItemIcon, ListItemText, Paper, TextField, Typography, useMediaQuery, useTheme } from '@mui/material'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAppThemeContext } from '../shared/contexts'
 import { useAuthContext } from '../shared/contexts/auth/AuthContext'
-import { ResponseError } from '../shared/services/api/errors'
 import Swal from 'sweetalert2'
 import * as yup from 'yup'
+import { Visibility, VisibilityOff } from '@mui/icons-material'
 
 const loginSchema = yup.object().shape({
   name: yup.string().min(3).required(),
@@ -14,6 +14,7 @@ const loginSchema = yup.object().shape({
 
 export const Login = () => {
   const theme = useTheme()
+  const smDown = useMediaQuery(theme.breakpoints.down('sm'))
   const navigate = useNavigate()
   const authService = useAuthContext()
   const [ isLoading, setIsLoading ] = useState(false)
@@ -26,6 +27,9 @@ export const Login = () => {
   const [password, setPassword] = useState('')
   const [nameError, setNameError] = useState('')
   const [passwordError, setPasswordError] = useState('')
+
+  const [showPass, setShowPass] = useState(false)
+
 
   const handleSubmit = async () => {
     setIsLoading(true)
@@ -74,7 +78,7 @@ export const Login = () => {
             <ListItemIcon>
               <Icon>dark_mode</Icon>
             </ListItemIcon>
-            <ListItemText primary='Tema' />
+            {!smDown && <ListItemText primary='Alternar tema'/>}
           </ListItemButton>
         </List>
       </Box>
@@ -95,13 +99,26 @@ export const Login = () => {
               onChange={ev => setName(ev.currentTarget.value)}
               onKeyDown={() => setNameError('')}
             />
-            <TextField fullWidth label='Senha' type='password'
+            <TextField fullWidth label='Senha'
+              type={showPass ? 'text' : 'password'}
               value={password}
               error={!!passwordError}
               disabled={isLoading}
               helperText={passwordError}
               onChange={ev => setPassword(ev.currentTarget.value)}
               onKeyDown={() => setPasswordError('')}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment
+                    position='end'>
+                    <IconButton
+                      onClick={() => setShowPass(!showPass)}
+                    >
+                      {showPass ? <Visibility /> : <VisibilityOff />}
+                    </IconButton>
+                  </InputAdornment>
+                )
+              }}
             />
           </Box>
 

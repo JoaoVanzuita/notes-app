@@ -1,11 +1,11 @@
-import { Box, Button, Card, CardActions, CardContent, Icon, LinearProgress, List, ListItemButton, ListItemIcon, ListItemText, Paper, TextField, Typography, useTheme } from '@mui/material'
+import { Box, Button, Card, CardActions, CardContent, Icon, IconButton, InputAdornment, LinearProgress, List, ListItemButton, ListItemIcon, ListItemText, Paper, TextField, Typography, useMediaQuery, useTheme } from '@mui/material'
 import { useState } from 'react'
 import { useAppThemeContext } from '../shared/contexts'
 import { UsersService } from '../shared/services/api/users'
-import { ResponseError } from '../shared/services/api/errors'
 import { useNavigate } from 'react-router-dom'
 import Swal from 'sweetalert2'
 import * as yup from 'yup'
+import { Visibility, VisibilityOff } from '@mui/icons-material'
 
 const registerSchema = yup.object().shape({
   name: yup.string().min(3).required(),
@@ -15,6 +15,7 @@ const registerSchema = yup.object().shape({
 
 export const Register = () => {
   const theme = useTheme()
+  const smDown = useMediaQuery(theme.breakpoints.down('sm'))
   const alertBackground = theme.palette.background.default
   const alertColor = theme.palette.mode === 'light' ? '#000000' : '#ffffff'
   const [ isLoading, setIsLoading ] = useState(false)
@@ -26,6 +27,9 @@ export const Register = () => {
   const [passwordError, setPasswordError] = useState('')
   const [confirmPasswordError, setConfirmPasswordError] = useState('')
   const navigate = useNavigate()
+
+  const [showPass, setShowPass] = useState(false)
+  const [showConfirmPass, setShowConfirmPass] = useState(false)
 
   const handleSubmit = async () => {
     setIsLoading(true)
@@ -77,7 +81,7 @@ export const Register = () => {
             <ListItemIcon>
               <Icon>dark_mode</Icon>
             </ListItemIcon>
-            <ListItemText primary='Alternar tema'/>
+            {!smDown && <ListItemText primary='Alternar tema'/>}
           </ListItemButton>
         </List>
       </Box>
@@ -98,21 +102,47 @@ export const Register = () => {
               onChange={ev => setName(ev.currentTarget.value)}
               onKeyDown={() => setNameError('')}
             />
-            <TextField fullWidth name='password' label='Senha' type='password'
+            <TextField fullWidth name='password' label='Senha'
               value={password}
+              type={showPass ? 'text' : 'password'}
               error={!!passwordError}
               disabled={isLoading}
               helperText={passwordError}
               onChange={ev => setPassword(ev.currentTarget.value)}
               onKeyDown={() => setPasswordError('')}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment
+                    position='end'>
+                    <IconButton
+                      onClick={() => setShowPass(!showPass)}
+                    >
+                      {showPass ? <Visibility /> : <VisibilityOff />}
+                    </IconButton>
+                  </InputAdornment>
+                )
+              }}
             />
-            <TextField fullWidth name='confirmPassword' label='Confirmar senha' type='password'
+            <TextField fullWidth name='confirmPassword' label='Confirmar senha'
               value={confirmPassword}
+              type={showConfirmPass ? 'text' : 'password'}
               error={!!confirmPasswordError}
               disabled={isLoading}
               helperText={confirmPasswordError}
               onChange={ev => setConfirmPassword(ev.currentTarget.value)}
               onKeyDown={() => setConfirmPasswordError('')}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment
+                    position='end'>
+                    <IconButton
+                      onClick={() => setShowConfirmPass(!showConfirmPass)}
+                    >
+                      {showConfirmPass ? <Visibility /> : <VisibilityOff />}
+                    </IconButton>
+                  </InputAdornment>
+                )
+              }}
             />
           </Box>
 

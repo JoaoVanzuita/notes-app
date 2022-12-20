@@ -41,7 +41,7 @@ export const BasePageLayout: React.FC<IBasePageLayoutProps> = ({children, title,
               <ListItemIcon>
                 <Icon>dark_mode</Icon>
               </ListItemIcon>
-              <ListItemText primary='Tema' />
+              {!smDown && <ListItemText primary='Alternar tema'/>}
             </ListItemButton>
           </List>
         </Box>
