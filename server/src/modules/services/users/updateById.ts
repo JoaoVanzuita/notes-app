@@ -18,5 +18,5 @@ export const updateById = async (id: number, name: string, password: string) => 
     password
   })
 
-  await UserRepository.save(user)
+  await UserRepository.update(user.id, user)
 }

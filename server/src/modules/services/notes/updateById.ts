@@ -32,5 +32,5 @@ export const updateById = async (id: number, title: string, description: string,
     updatedOn
   })
 
-  await NoteRepository.save(note)
+  await NoteRepository.update(note.id, note)
 }

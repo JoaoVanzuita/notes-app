@@ -17,5 +17,5 @@ export const create = async (name: string, password: string) => {
     password
   })
 
-  await UserRepository.save(user)
+  await UserRepository.insert(user)
 }
