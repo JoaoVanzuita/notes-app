@@ -7,12 +7,10 @@ type TUpdateData = {
   password: string
 }
 
-export const updateById = async (userData: TUpdateData): Promise<number | ResponseError> => {
+export const updateById = async (userData: TUpdateData): Promise<void | ResponseError> => {
   try {
 
-    const { data } = await Api.put('/users', userData)
-
-    return data.id
+    await Api.put('/users', userData)
 
   } catch (error) {
 

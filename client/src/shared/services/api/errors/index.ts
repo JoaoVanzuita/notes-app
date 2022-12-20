@@ -1,2 +1,2 @@
 export * from './ResponseError'
-export * from './axiosError'
+export * from './errorInterceptor'

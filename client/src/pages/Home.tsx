@@ -26,7 +26,16 @@ export const Home = () => {
     const result = await NotesService.getByTitle(search)
 
     if(result instanceof ResponseError){
-      alert(result.statusCode + ' - ' + result.message)
+
+      Swal.fire({
+        titleText: `Ocorreu um erro - Código: ${result.statusCode}`,
+        text: result.message,
+        icon: 'error',
+        background: alertBackground,
+        color: alertColor
+      })
+
+      setNotes([])
       return
     }
 
@@ -47,6 +56,15 @@ export const Home = () => {
           setIsLoading(false)
 
           if(result instanceof ResponseError){
+
+            Swal.fire({
+              titleText: `Ocorreu um erro - Código: ${result.statusCode}`,
+              text: result.message,
+              icon: 'error',
+              background: alertBackground,
+              color: alertColor
+            })
+
             setNotes([])
             return
           }
@@ -67,8 +85,16 @@ export const Home = () => {
 
     const result = await NotesService.create(note)
 
-    if(result instanceof ResponseError){
-      alert(result.message.toString())
+    if(result){
+
+      Swal.fire({
+        titleText: `Ocorreu um erro - Código: ${result.statusCode}`,
+        text: result.message,
+        icon: 'error',
+        background: alertBackground,
+        color: alertColor
+      })
+
       return
     }
 
@@ -88,10 +114,11 @@ export const Home = () => {
       cancelButtonText: 'cancelar',
       confirmButtonText: 'Excluir'
     }).then(async (result) => {
+
       if(result.isConfirmed){
         const resultDelete = await NotesService.deleteById(id)
 
-        if(resultDelete instanceof ResponseError){
+        if(resultDelete){
           Swal.fire({
             titleText: `Ocorreu um erro - Código: ${resultDelete.statusCode}`,
             text: resultDelete.message,
@@ -111,8 +138,14 @@ export const Home = () => {
 
     const result = await NotesService.updateById(note)
 
-    if(result instanceof ResponseError){
-      alert(result.message.toString())
+    if(result){
+      Swal.fire({
+        titleText: `Ocorreu um erro - Código: ${result.statusCode}`,
+        text: result.message,
+        icon: 'error',
+        background: alertBackground,
+        color: alertColor
+      })
       return
     }
 

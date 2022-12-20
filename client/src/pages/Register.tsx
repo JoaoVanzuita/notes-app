@@ -36,11 +36,11 @@ export const Register = () => {
         const result = await UsersService.register({name: validData.name, password: validData.password})
         setIsLoading(false)
 
-        if(result instanceof ResponseError){
+        if(result){
 
           Swal.fire({
             titleText: `Ocorreu um erro - Código: ${result.statusCode}`,
-            text: result.message.toString(),
+            text: result.message,
             icon: 'error',
             background: alertBackground,
             color: alertColor

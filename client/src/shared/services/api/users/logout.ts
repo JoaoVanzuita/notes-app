@@ -2,7 +2,7 @@ import { Environment } from '../../../environment'
 import { Api } from '../axios-config'
 import { ResponseError } from '../errors'
 
-export const logout = async (): Promise<undefined | ResponseError> => {
+export const logout = async (): Promise<void | ResponseError> => {
   try {
 
     await Api.post('/logout')

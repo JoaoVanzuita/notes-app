@@ -7,7 +7,7 @@ type TLoginData = {
   password: string
 }
 
-export const login = async (loginData: TLoginData): Promise<undefined | ResponseError> => {
+export const login = async (loginData: TLoginData): Promise<void | ResponseError> => {
   try {
 
     await Api.post('/login', loginData)

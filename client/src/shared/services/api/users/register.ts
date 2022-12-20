@@ -7,12 +7,11 @@ type TRegisterData = {
   password: string
 }
 
-export const register = async (userData: TRegisterData): Promise<number | ResponseError> => {
+export const register = async (userData: TRegisterData): Promise<void | ResponseError> => {
   try {
 
-    const { data } = await Api.post('/users', userData)
+    await Api.post('/users', userData)
 
-    return data.id
 
   } catch (error) {
 

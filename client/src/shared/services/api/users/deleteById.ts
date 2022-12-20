@@ -2,12 +2,10 @@ import { Environment } from '../../../environment'
 import { Api } from '../axios-config'
 import { ResponseError } from '../errors'
 
-export const deleteById = async (): Promise<number | ResponseError> => {
+export const deleteById = async (): Promise<void | ResponseError> => {
   try {
 
-    const { data } = await Api.delete('/users')
-
-    return data.id
+    await Api.delete('/users')
 
   } catch (error) {
 

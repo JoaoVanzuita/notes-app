@@ -3,11 +3,10 @@ import { Note } from '../../../types'
 import { Api } from '../axios-config'
 import { ResponseError } from '../errors'
 
-export const create = async (note: Note): Promise<number | ResponseError> => {
+export const create = async (note: Note): Promise<void | ResponseError> => {
   try {
-    const { data } = await Api.post('/notes', note)
 
-    return data.id
+    await Api.post('/notes', note)
 
   } catch (error) {
 

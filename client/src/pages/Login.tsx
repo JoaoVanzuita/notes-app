@@ -36,7 +36,7 @@ export const Login = () => {
         const result = await authService.signin(validData.name, validData.password)
         setIsLoading(false)
 
-        if(result instanceof ResponseError){
+        if(result){
 
           Swal.fire({
             titleText: `Ocorreu um erro - Código: ${result.statusCode}`,

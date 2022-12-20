@@ -27,7 +27,7 @@ export const ManageAccount = () => {
   const [nameError, setNameError] = useState('')
   const [passwordError, setPasswordError] = useState('')
   const [confirmPasswordError, setConfirmPasswordError] = useState('')
-  const { getLoggedIn, signout } = useAuthContext()
+  const { getLoggedIn } = useAuthContext()
 
   const fetchUser = useCallback(async () => {
 
@@ -36,7 +36,15 @@ export const ManageAccount = () => {
     const result = await getLoggedIn()
 
     if(result instanceof ResponseError){
-      alert('error')
+
+      Swal.fire({
+        titleText: `Ocorreu um erro - Código: ${result.statusCode}`,
+        text: result.message,
+        icon: 'error',
+        background: alertBackground,
+        color: alertColor
+      })
+
       return
     }
 
@@ -58,11 +66,11 @@ export const ManageAccount = () => {
         const result = await UsersService.updateById({name: validData.name, password: validData.password})
         setIsLoading(false)
 
-        if(result instanceof ResponseError){
+        if(result){
 
           Swal.fire({
             titleText: `Ocorreu um erro - Código: ${result.statusCode}`,
-            text: result.message.toString(),
+            text: result.message,
             icon: 'error',
             background: alertBackground,
             color: alertColor
@@ -103,6 +111,7 @@ export const ManageAccount = () => {
       cancelButtonText: 'cancelar',
       confirmButtonText: 'Excluir'
     }).then(async (result) => {
+
       if(result.isConfirmed){
         const resultDelete = await UsersService.deleteById()
 

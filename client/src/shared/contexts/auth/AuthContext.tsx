@@ -24,14 +24,13 @@ export const AuthProvider: React.FC<IAuthProviderProps> = ({children}) => {
     UsersService.getLoggedIn().then(result => {
 
       setIsAuthenticated(!(result instanceof ResponseError))
-
     })
   }, [])
 
   const signin = async (name: string, password: string) => {
     const result = await UsersService.login({ name, password })
 
-    if(result instanceof ResponseError){
+    if(result){
       setIsAuthenticated(false)
       return result
     }
@@ -43,7 +42,7 @@ export const AuthProvider: React.FC<IAuthProviderProps> = ({children}) => {
 
     const result = await UsersService.logout()
 
-    if(result instanceof ResponseError){
+    if(result){
       setIsAuthenticated(true)
       return result
     }
