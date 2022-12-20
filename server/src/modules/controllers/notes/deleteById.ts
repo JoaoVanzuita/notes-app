@@ -5,7 +5,7 @@ import { Environment } from '../../environment'
 import * as yup from 'yup'
 
 interface IDeleteParams {
-  id: number
+  id?: number
 }
 
 export const deleteValidation = validation({

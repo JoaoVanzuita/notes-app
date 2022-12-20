@@ -4,8 +4,11 @@ import express from 'express'
 import cookieParser from 'cookie-parser'
 import { errorMiddleware } from './modules/middleware'
 import { routes } from './routes'
+import path from 'path'
 
 const app = express()
+
+app.use('/', express.static(path.join(__dirname, '/public')))
 
 app.use(cookieParser())
 app.use(express.json())
@@ -18,7 +21,6 @@ app.use(cors({
 }))
 
 app.use('/api', routes)
-// app.use('/', express.static('./public'))
 
 app.use(errorMiddleware)
 

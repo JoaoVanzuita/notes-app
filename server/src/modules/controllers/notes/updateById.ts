@@ -10,7 +10,7 @@ interface IUpdateBody {
 }
 
 interface IUpdateParams {
-  id: number
+  id?: number
 }
 
 export const updateValidation = validation({
