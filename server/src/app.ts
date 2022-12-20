@@ -18,7 +18,7 @@ app.use(cors({
   allowedHeaders: ['*', 'Authorization', 'Content-Type'],
 }))
 
-app.use('/api', routes)
+app.use(routes)
 
 app.use(errorMiddleware)
 
