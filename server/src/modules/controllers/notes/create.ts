@@ -11,8 +11,8 @@ interface ICreate {
 
 export const createValidation = validation({
   body: yup.object().shape({
-    title: yup.string().min(3, Environment.TOO_SHORT_TITLE).max(100, Environment.TOO_LONG_TITLE).notRequired(),
-    description: yup.string().min(3, Environment.TOO_SHORT_DESC).max(500, Environment.TOO_LONG_DESC).notRequired()
+    title: yup.string().max(100, Environment.TOO_LONG_TITLE).notRequired(),
+    description: yup.string().max(500, Environment.TOO_LONG_DESC).notRequired()
   })
 })
 

@@ -16,6 +16,7 @@ const updateAccountSchema = yup.object().shape({
 })
 
 export const ManageAccount = () => {
+  const { signout } = useAuthContext()
   const theme = useTheme()
   const alertBackground = theme.palette.background.default
   const alertColor = theme.palette.mode === 'light' ? '#000000' : '#ffffff'
@@ -108,7 +109,7 @@ export const ManageAccount = () => {
       color: alertColor,
       showCancelButton: true,
       cancelButtonColor: '#d33',
-      cancelButtonText: 'cancelar',
+      cancelButtonText: 'Cancelar',
       confirmButtonText: 'Excluir'
     }).then(async (result) => {
 
@@ -126,7 +127,21 @@ export const ManageAccount = () => {
           return
         }
 
-        navigate('/login')
+        const resultLogout = await signout()
+
+        if(resultLogout){
+
+          if(resultLogout instanceof ResponseError){
+            Swal.fire({
+              titleText: `Ocorreu um erro - Código: ${resultLogout.statusCode}`,
+              text: resultLogout.message,
+              icon: 'error',
+              background: alertBackground,
+              color: alertColor
+            })
+            navigate('/login')
+          }
+        }
       }
     })
   }
