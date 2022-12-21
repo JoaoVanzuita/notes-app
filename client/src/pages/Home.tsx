@@ -1,4 +1,4 @@
-import { CircularProgress, Grid, Typography, useTheme } from '@mui/material'
+import { Alert, CircularProgress, Grid, Snackbar, Typography, useTheme } from '@mui/material'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { NoteCard } from '../shared/components/Note'
@@ -10,6 +10,7 @@ import { ResponseError } from '../shared/services/api/errors'
 import { NotesService } from '../shared/services/api/notes'
 import { Note } from '../shared/types'
 import Swal from 'sweetalert2'
+import { v4 as uuid } from 'uuid'
 
 export const Home = () => {
   const alertBackground = useTheme().palette.background.default
@@ -20,27 +21,33 @@ export const Home = () => {
   const { signout } = useAuthContext()
   const [notes, setNotes] = useState<Note[]>([])
   const [searchParams, setSearchParams] = useSearchParams()
+  const [showSuccessAlert, setShowSuccessAlert] = useState(false)
+  const [ successAlertMessage, setSuccessAlertMessage] = useState('')
 
-  const fetchNotes = useCallback(async () =>{
+  const showAlertDialog = (error: ResponseError) => {
+    Swal.fire({
+      titleText: `Ocorreu um erro - Código: ${error.statusCode}`,
+      text: error.message,
+      icon: 'error',
+      background: alertBackground,
+      color: alertColor
+    })
+  }
+
+  const fetchNotes = async () =>{
 
     const result = await NotesService.getByTitle(search)
 
     if(result instanceof ResponseError){
 
-      Swal.fire({
-        titleText: `Ocorreu um erro - Código: ${result.statusCode}`,
-        text: result.message,
-        icon: 'error',
-        background: alertBackground,
-        color: alertColor
-      })
+      showAlertDialog(result)
 
       setNotes([])
       return
     }
 
     setNotes(result)
-  },[])
+  }
 
   const search = useMemo(() => {
     return searchParams.get('search') || ''
@@ -49,7 +56,6 @@ export const Home = () => {
   useEffect(() => {
     debounce(() => {
       setIsLoading(true)
-      setNotes([])
 
       NotesService.getByTitle(search)
         .then((result) => {
@@ -57,51 +63,29 @@ export const Home = () => {
 
           if(result instanceof ResponseError){
 
-            Swal.fire({
-              titleText: `Ocorreu um erro - Código: ${result.statusCode}`,
-              text: result.message,
-              icon: 'error',
-              background: alertBackground,
-              color: alertColor
-            })
+            showAlertDialog(result)
 
             setNotes([])
             return
           }
-
           setNotes(result)
         })
     })
   }, [search])
 
-
-  const handleNewNote = useCallback(async () => {
-
-    const note = {
+  const handleNewNote = async () => {
+    
+    const newNote: Note = {
+      id: uuid(),
       title: '',
       description: '',
-      updatedOn: new Date()
+      updatedOn: new Date(),
     }
 
-    const result = await NotesService.create(note)
+    setNotes([...notes, newNote])
+  }
 
-    if(result){
-
-      Swal.fire({
-        titleText: `Ocorreu um erro - Código: ${result.statusCode}`,
-        text: result.message,
-        icon: 'error',
-        background: alertBackground,
-        color: alertColor
-      })
-
-      return
-    }
-
-    fetchNotes()
-  },[])
-
-  const handleDelete = useCallback(async (id: number) => {
+  const handleDelete = async (id: string) => {
 
     await Swal.fire({
       titleText: 'Tem certeza de que deseja excluir essa nota?',
@@ -116,53 +100,54 @@ export const Home = () => {
     }).then(async (result) => {
 
       if(result.isConfirmed){
-        const resultDelete = await NotesService.deleteById(id)
 
-        if(resultDelete){
-          Swal.fire({
-            titleText: `Ocorreu um erro - Código: ${resultDelete.statusCode}`,
-            text: resultDelete.message,
-            icon: 'error',
-            background: alertBackground,
-            color: alertColor
-          })
-          return
+        const filteredNotes = notes.filter(note => note.id !== id)
+
+        setNotes(filteredNotes)
+
+        const isSaved = await NotesService.getById(id)
+
+        if(isSaved){
+
+          const resultDelete = await NotesService.deleteById(id)
+
+          if(resultDelete){
+
+            showAlertDialog(resultDelete)
+
+            fetchNotes()
+          }
         }
       }
     })
 
-    fetchNotes()
-  },[])
+    setSuccessAlertMessage('Nota excluída com sucesso!')
+    setShowSuccessAlert(true)
+  }
 
-  const handleSave = useCallback(async (note: Note) => {
+  const handleSave = async (note: Note) => {
 
-    const result = await NotesService.updateById(note)
+    const result = await NotesService.save(note)
 
     if(result){
-      Swal.fire({
-        titleText: `Ocorreu um erro - Código: ${result.statusCode}`,
-        text: result.message,
-        icon: 'error',
-        background: alertBackground,
-        color: alertColor
-      })
+
+      showAlertDialog(result)
+
       return
     }
 
+    setSuccessAlertMessage('Nota salva com sucesso!')
+    setShowSuccessAlert(true)
     fetchNotes()
-  },[])
+  }
 
   const handleExit = useCallback(async () => {
     const result = await signout()
 
     if(result){
-      Swal.fire({
-        titleText: `Ocorreu um erro - Código: ${result.statusCode}`,
-        text: result.message,
-        icon: 'error',
-        background: alertBackground,
-        color: alertColor
-      })
+
+      showAlertDialog(result)
+
       return
     }
 
@@ -187,6 +172,11 @@ export const Home = () => {
         onClickButtonManageAccount={() => navigate('/manage-account')}
       />}
     >
+      <Snackbar open={showSuccessAlert} autoHideDuration={3000} onClose={() => setShowSuccessAlert(false)}>
+        <Alert variant='outlined' onClose={() => setShowSuccessAlert(false)} severity='success' sx={{ width: '100%' }}>
+          {successAlertMessage}
+        </Alert>
+      </Snackbar>
       <Grid container display='flex' alignItems='center' justifyContent='center'>
 
         {isLoading && <CircularProgress/>}

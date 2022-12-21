@@ -1,13 +1,13 @@
-import * as create from './create'
-import * as updateById from './updateById'
+import * as save from './save'
 import * as deleteById from './deleteById'
 import * as getByDate from './getByDate'
 import * as getByTitle from './getByTitle'
+import * as getById from './getById'
 
 export const NotesController = {
-  ...create,
-  ...updateById,
+  ...save,
   ...deleteById,
   ...getByDate,
-  ...getByTitle
+  ...getByTitle,
+  ...getById
 }

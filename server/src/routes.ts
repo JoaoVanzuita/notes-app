@@ -14,10 +14,10 @@ routes.get('/users', UsersController.getLoggedIn)
 routes.put('/users', UsersController.updateValidation, UsersController.updateById)
 routes.delete('/users', UsersController.deleteById)
 
-routes.post('/notes', NotesController.createValidation, NotesController.create)
-routes.put('/notes/:id', NotesController.updateValidation, NotesController.updateById)
+routes.post('/notes/:id', NotesController.saveValidation, NotesController.save)
 routes.delete('/notes/:id', NotesController.deleteValidation, NotesController.deleteById)
-routes.get('/notes/title', NotesController.getByTitleValidation, NotesController.getByTitle)
+routes.get('/notes/search', NotesController.getByTitleValidation, NotesController.getByTitle)
 routes.get('/notes/date', NotesController.getByDateValidation, NotesController.getByDate)
+routes.get('/notes/:id', NotesController.getByIdValidation, NotesController.getById)
 
 export { routes }

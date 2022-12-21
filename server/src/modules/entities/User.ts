@@ -4,13 +4,13 @@ import { Note } from './Note'
 @Entity('users')
 export class User {
 
-  @PrimaryGeneratedColumn()
-    id: number
+  @PrimaryGeneratedColumn('uuid')
+    id: string
 
-  @Column({type: 'text', unique: true})
+  @Column({ type: 'text', unique: true })
     name: string
 
-  @Column({type: 'text', select: false})
+  @Column({ type: 'text', select: false })
     password: string
 
   @OneToMany(() => Note, note => note.user)

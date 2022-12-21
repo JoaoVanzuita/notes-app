@@ -3,11 +3,11 @@ import { Note } from '../../../types'
 import { Api } from '../axios-config'
 import { ResponseError } from '../errors'
 
-export const updateById = async (note: Note): Promise<void | ResponseError> => {
+export const save = async (note: Note): Promise<void | ResponseError> => {
 
   try {
 
-    await Api.put(`/notes/${note.id}`, note)
+    await Api.post(`/notes/${note.id}`, note)
 
   } catch (error) {
 

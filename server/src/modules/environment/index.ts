@@ -5,8 +5,8 @@ export const Environment = {
   USER_401: 'Usuário não autorizado',
   INVALID_LOGIN: 'Login inválido',
 
-  INVALID_ID: 'Id deve ser maior que 0',
-  REQUIRED_ID: 'Id é obrigatório',
+  INVALID_ID: 'O formato do ID é inválido',
+  REQUIRED_ID: 'ID é obrigatório',
 
   REQUIRED_DESC: 'A descrição é obrigatória para atualizar a nota',
   TOO_LONG_DESC: 'A descrição pode ter no máximo 500 caracteres',

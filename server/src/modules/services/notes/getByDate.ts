@@ -2,7 +2,7 @@ import { Between } from 'typeorm'
 import { NoteRepository } from '../../repositories'
 
 interface IUser {
-  id?: number
+  id?: string
 }
 
 export const getByDate = async (start: Date, end:Date, user: IUser) => {

@@ -2,7 +2,7 @@ import { Environment } from '../../environment'
 import { ServerError } from '../../errors/ServerError'
 import { UserRepository } from '../../repositories'
 
-export const deleteById = async (id:number) => {
+export const deleteById = async (id:string) => {
 
   const userExists = await UserRepository.findOneBy({
     id
