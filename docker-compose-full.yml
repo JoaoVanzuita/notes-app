@@ -11,8 +11,6 @@ services:
       sh -c "npm install && npm run dev"
     ports:
       - '5173:5173'
-    environment:
-      - BASE_URL=${BASE_URL}
   notes-app-server:
     container_name: notes-app-server
     image: node:alpine
