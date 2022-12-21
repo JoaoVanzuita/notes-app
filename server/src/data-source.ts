@@ -14,7 +14,9 @@ export const AppDataSource = new DataSource({
   migrations: [`${__dirname}/**/migrations/*.{ts,js}`],
   connectTimeoutMS: 10000,
   maxQueryExecutionTime: 500,
-  ssl: {
-    requestCert: false
+  ...(process.env.NODE_ENV === 'production') && {
+    ssl: {
+      requestCert: false
+    }
   }
 })
