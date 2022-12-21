@@ -1,6 +1,8 @@
+import { Environment } from '../../environment'
+import { ServerError } from '../../errors/ServerError'
 import { NoteRepository } from '../../repositories'
 
-export const checkOwner = async (userId: number, noteId: number) => {
+export const checkOwner = async (userId: string, noteId: string) => {
 
   const result = await NoteRepository
     .createQueryBuilder('note')
@@ -8,5 +10,11 @@ export const checkOwner = async (userId: number, noteId: number) => {
     .where('note.id = :id', { id: noteId })
     .getRawOne()
 
-  return userId === result.user_id
+  if (!result) {
+    return
+  }
+
+  if(userId !== result.user_id){
+    throw new ServerError(Environment.USER_401, 401)
+  }
 }

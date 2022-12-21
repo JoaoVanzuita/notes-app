@@ -1,13 +1,13 @@
-import * as create from './create'
 import * as deleteById from './deleteById'
-import * as updateById from './updateById'
+import * as save from './save'
 import * as getByTitle from './getByTitle'
 import * as getByDate from './getByDate'
+import * as getById from './getById'
 
 export const NotesService = {
-  ...create,
   ...deleteById,
-  ...updateById,
+  ...save,
   ...getByTitle,
-  ...getByDate
+  ...getByDate,
+  ...getById
 }

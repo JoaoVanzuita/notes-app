@@ -6,7 +6,7 @@ import { ResponseError } from '../errors'
 export const getByTitle = async (title: string): Promise<Note[] | ResponseError> => {
   try {
 
-    const { data } = await Api.get(`/notes/title?title=${title}`)
+    const { data } = await Api.get(`/notes/search?title=${title}`)
 
     return data.notes
 

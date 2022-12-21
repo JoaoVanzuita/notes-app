@@ -1,12 +1,14 @@
 import { Environment } from '../../../environment'
-import { Note } from '../../../types'
+import { Note } from '../../../types/Note'
 import { Api } from '../axios-config'
 import { ResponseError } from '../errors'
 
-export const create = async (note: Note): Promise<void | ResponseError> => {
+export const getById = async (id: string): Promise<Note | ResponseError> => {
   try {
 
-    await Api.post('/notes', note)
+    const { data } = await Api.get(`/notes/${id}`)
+
+    return data.note
 
   } catch (error) {
 

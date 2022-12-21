@@ -1,15 +1,14 @@
-import { Like } from 'typeorm'
 import { NoteRepository } from '../../repositories'
 
 interface IUser {
   id?: string
 }
 
-export const getByTitle = async (title: string, user: IUser) => {
+export const getById = async (id: string, user: IUser) => {
 
-  const notes = await NoteRepository.find({
+  const note = await NoteRepository.findOne({
     where:{
-      title: Like(`%${title}%`),
+      id,
       user: {
         id: user.id
       }
@@ -17,5 +16,5 @@ export const getByTitle = async (title: string, user: IUser) => {
     order: { updatedOn: 'DESC' }
   })
 
-  return notes
+  return note
 }

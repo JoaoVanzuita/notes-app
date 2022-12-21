@@ -3,7 +3,7 @@ import { Box, Button, Card, CardContent, TextField, Typography } from '@mui/mate
 import { Note } from '../types'
 
 type TNoteProps = {
-  noteId?: number
+  noteId: string
   noteTitle?: string
   noteDescription?: string
   noteUpdatedOn: Date
@@ -20,13 +20,13 @@ export const NoteCard: React.FC<TNoteProps> = ({
   onClickButtonDelete
 }) => {
 
-  const [id] = useState(noteId ?? 0)
+  const [id] = useState(noteId)
   const [title, setTitle] = useState(noteTitle ?? '')
   const [description, setDescription] = useState(noteDescription ?? '')
   const [updatedOn] = useState<Date>(new Date(noteUpdatedOn))
 
   const handleSave = () => {
-    onClickButtonSave({id, title, description, updatedOn: updatedOn})
+    onClickButtonSave({id, title, description, updatedOn})
   }
 
   return (

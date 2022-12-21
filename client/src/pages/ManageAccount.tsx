@@ -1,4 +1,4 @@
-import { Box, Card, CardContent, Typography, TextField, CardActions, Button, LinearProgress, useTheme, IconButton, InputAdornment } from '@mui/material'
+import { Box, Card, CardContent, Typography, TextField, CardActions, Button, LinearProgress, useTheme, IconButton, InputAdornment, Alert, Grid, Snackbar } from '@mui/material'
 import { useState, useCallback, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuthContext } from '../shared/contexts/auth/AuthContext'
@@ -30,6 +30,7 @@ export const ManageAccount = () => {
   const [passwordError, setPasswordError] = useState('')
   const [confirmPasswordError, setConfirmPasswordError] = useState('')
   const { getLoggedIn } = useAuthContext()
+  const [showSuccessAlert, setShowSuccessAlert] = useState(false)
 
   const [showPass, setShowPass] = useState(false)
   const [showConfirmPass, setShowConfirmPass] = useState(false)
@@ -84,6 +85,7 @@ export const ManageAccount = () => {
           return
         }
 
+        setShowSuccessAlert(true)
         fetchUser()
       })
       .catch((errors: yup.ValidationError) => {
@@ -161,85 +163,92 @@ export const ManageAccount = () => {
         onClickButtonBack={() => navigate('/home')}
       />}
     >
+      <Grid container display='flex' alignItems='center' justifyContent='center' alignContent='center' >
+        <Snackbar open={showSuccessAlert} autoHideDuration={3000} onClose={() => setShowSuccessAlert(false)}>
+          <Alert variant='outlined' onClose={() => setShowSuccessAlert(false)} severity='success' sx={{ width: '100%' }}>
+          Informações atualizadas com sucesso!
+          </Alert>
+        </Snackbar>
 
-      <Box display='flex' flexDirection='column' alignItems='center' justifyContent='center'>
+        <Box display='flex' flexDirection='column' alignItems='center' justifyContent='center'>
 
-        <Card>
+          <Card>
 
-          <CardContent>
-            <Box width={300} display='flex' justifyContent='center' flexDirection='column' gap={3}>
-              <Typography variant='h5' align='center'>
+            <CardContent>
+              <Box width={300} display='flex' justifyContent='center' flexDirection='column' gap={3}>
+                <Typography variant='h5' align='center'>
                 Gerenciar conta
-              </Typography>
+                </Typography>
 
-              <TextField fullWidth name='name' label='Nome de usuário' type='text'
-                value={name}
-                error={!!nameError}
-                disabled={isLoading}
-                helperText={nameError}
-                onChange={ev => setName(ev.currentTarget.value)}
-                onKeyDown={() => setNameError('')}
-              />
-              <TextField fullWidth name='password' label='Senha'
-                type={showPass ? 'text' : 'password'}
-                value={password}
-                error={!!passwordError}
-                disabled={isLoading}
-                helperText={passwordError}
-                onChange={ev => setPassword(ev.currentTarget.value)}
-                onKeyDown={() => setPasswordError('')}
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment
-                      position='end'>
-                      <IconButton
-                        onClick={() => setShowPass(!showPass)}
-                      >
-                        {showPass ? <Visibility /> : <VisibilityOff />}
-                      </IconButton>
-                    </InputAdornment>
-                  )
-                }}
-              />
-              <TextField fullWidth name='confirmPassword' label='Confirmar senha'
-                type={showConfirmPass ? 'text' : 'password'}
-                value={confirmPassword}
-                error={!!confirmPasswordError}
-                disabled={isLoading}
-                helperText={confirmPasswordError}
-                onChange={ev => setConfirmPassword(ev.currentTarget.value)}
-                onKeyDown={() => setConfirmPasswordError('')}
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment
-                      position='end'>
-                      <IconButton
-                        onClick={() => setShowConfirmPass(!showConfirmPass)}
-                      >
-                        {showConfirmPass ? <Visibility /> : <VisibilityOff />}
-                      </IconButton>
-                    </InputAdornment>
-                  )
-                }}
-              />
-            </Box>
+                <TextField fullWidth name='name' label='Nome de usuário' type='text'
+                  value={name}
+                  error={!!nameError}
+                  disabled={isLoading}
+                  helperText={nameError}
+                  onChange={ev => setName(ev.currentTarget.value)}
+                  onKeyDown={() => setNameError('')}
+                />
+                <TextField fullWidth name='password' label='Senha'
+                  type={showPass ? 'text' : 'password'}
+                  value={password}
+                  error={!!passwordError}
+                  disabled={isLoading}
+                  helperText={passwordError}
+                  onChange={ev => setPassword(ev.currentTarget.value)}
+                  onKeyDown={() => setPasswordError('')}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment
+                        position='end'>
+                        <IconButton
+                          onClick={() => setShowPass(!showPass)}
+                        >
+                          {showPass ? <Visibility /> : <VisibilityOff />}
+                        </IconButton>
+                      </InputAdornment>
+                    )
+                  }}
+                />
+                <TextField fullWidth name='confirmPassword' label='Confirmar senha'
+                  type={showConfirmPass ? 'text' : 'password'}
+                  value={confirmPassword}
+                  error={!!confirmPasswordError}
+                  disabled={isLoading}
+                  helperText={confirmPasswordError}
+                  onChange={ev => setConfirmPassword(ev.currentTarget.value)}
+                  onKeyDown={() => setConfirmPasswordError('')}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment
+                        position='end'>
+                        <IconButton
+                          onClick={() => setShowConfirmPass(!showConfirmPass)}
+                        >
+                          {showConfirmPass ? <Visibility /> : <VisibilityOff />}
+                        </IconButton>
+                      </InputAdornment>
+                    )
+                  }}
+                />
+              </Box>
 
-          </CardContent>
-          <CardActions>
-            <Box width='100%' display='flex' justifyContent='center'>
+            </CardContent>
+            <CardActions>
+              <Box width='100%' display='flex' justifyContent='center'>
 
-              <Button disabled={isLoading} variant='contained' onClick={handleSubmit}>
+                <Button disabled={isLoading} variant='contained' onClick={handleSubmit}>
               Salvar
-              </Button>
+                </Button>
 
-            </Box>
-          </CardActions>
+              </Box>
+            </CardActions>
 
-          {isLoading && <LinearProgress variant='indeterminate'/>}
+            {isLoading && <LinearProgress variant='indeterminate'/>}
 
-        </Card>
+          </Card>
 
-      </Box>
+        </Box>
+      </Grid>
     </BasePageLayout>
   )
 }

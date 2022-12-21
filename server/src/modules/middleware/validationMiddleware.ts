@@ -27,7 +27,10 @@ export const validation: TValidation = (schemas) => async (req, res, next) => {
   })
 
   if (errors.length) {
-    return res.status(400).json({ message: errors.join(', ') })
+    return res.status(400).json({
+      'status': 400,
+      'message': errors.join(', ')
+    })
   }
 
   return next()

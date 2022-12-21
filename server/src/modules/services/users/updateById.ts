@@ -2,7 +2,7 @@ import { Environment } from '../../environment'
 import { ServerError } from '../../errors/ServerError'
 import { UserRepository } from '../../repositories'
 
-export const updateById = async (id: number, name: string, password: string) => {
+export const updateById = async (id: string, name: string, password: string) => {
 
   const userExists = await UserRepository.findOneBy({
     id
