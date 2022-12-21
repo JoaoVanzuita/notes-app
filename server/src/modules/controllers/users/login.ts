@@ -22,7 +22,7 @@ export const login = async (req: Request<{}, {}, ILogin>, res: Response) => {
   const accessToken = await UsersService.login(data.name, data.password)
 
   return res.cookie('accessToken', accessToken, {
-    sameSite: 'none',
+    domain: 'https://notes-app-t8oi.onrender.com/',
     secure: true,
     httpOnly: true,
   }).send()
