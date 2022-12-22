@@ -56,6 +56,7 @@ export const Home = () => {
   useEffect(() => {
     debounce(() => {
       setIsLoading(true)
+      setNotes([])
 
       NotesService.getByTitle(search)
         .then((result) => {
@@ -74,7 +75,7 @@ export const Home = () => {
   }, [search])
 
   const handleNewNote = async () => {
-    
+
     const newNote: Note = {
       id: uuid(),
       title: '',
