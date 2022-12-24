@@ -19,7 +19,7 @@ export const saveValidation = validation({
   }),
   body: yup.object().shape({
     title: yup.string().min(3, Environment.TOO_SHORT_TITLE).max(100, Environment.TOO_LONG_TITLE).required(Environment.REQUIRED_TITLE),
-    description: yup.string().min(3, Environment.TOO_SHORT_DESC).max(500, Environment.TOO_SHORT_DESC).required(Environment.REQUIRED_DESC)
+    description: yup.string().min(3, Environment.TOO_SHORT_DESC).max(500, Environment.TOO_LONG_DESC).required(Environment.REQUIRED_DESC)
   })
 })
 
