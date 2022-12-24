@@ -6,9 +6,9 @@ import { BasePageLayout } from '../shared/layouts/BasePageLayout'
 import { ResponseError } from '../shared/services/api/errors'
 import { UsersService } from '../shared/services/api/users'
 import { Toolbar } from '../shared/components'
+import { Visibility, VisibilityOff } from '@mui/icons-material'
 import Swal from 'sweetalert2'
 import * as yup from 'yup'
-import { Visibility, VisibilityOff } from '@mui/icons-material'
 
 const updateAccountSchema = yup.object().shape({
   name: yup.string().min(3).required(),
@@ -165,7 +165,7 @@ export const ManageAccount = () => {
     >
       <Grid container display='flex' alignItems='center' justifyContent='center' alignContent='center' >
         <Snackbar open={showSuccessAlert} autoHideDuration={3000} onClose={() => setShowSuccessAlert(false)}>
-          <Alert variant='outlined' onClose={() => setShowSuccessAlert(false)} severity='success' sx={{ width: '100%' }}>
+          <Alert onClose={() => setShowSuccessAlert(false)} severity='success' sx={{ width: '100%' }}>
           Informações atualizadas com sucesso!
           </Alert>
         </Snackbar>

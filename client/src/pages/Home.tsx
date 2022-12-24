@@ -21,8 +21,7 @@ export const Home = () => {
   const { signout } = useAuthContext()
   const [notes, setNotes] = useState<Note[]>([])
   const [searchParams, setSearchParams] = useSearchParams()
-  const [showSuccessAlert, setShowSuccessAlert] = useState(false)
-  const [ successAlertMessage, setSuccessAlertMessage] = useState('')
+  const [ successAlertMessage, setSuccessAlertMessage] = useState<string | null>(null)
 
   const showAlertDialog = (error: ResponseError) => {
     Swal.fire({
@@ -123,7 +122,6 @@ export const Home = () => {
     })
 
     setSuccessAlertMessage('Nota excluída com sucesso!')
-    setShowSuccessAlert(true)
   }
 
   const handleSave = async (note: Note) => {
@@ -138,7 +136,6 @@ export const Home = () => {
     }
 
     setSuccessAlertMessage('Nota salva com sucesso!')
-    setShowSuccessAlert(true)
     fetchNotes()
   }
 
@@ -173,8 +170,8 @@ export const Home = () => {
         onClickButtonManageAccount={() => navigate('/manage-account')}
       />}
     >
-      <Snackbar open={showSuccessAlert} autoHideDuration={3000} onClose={() => setShowSuccessAlert(false)}>
-        <Alert variant='outlined' onClose={() => setShowSuccessAlert(false)} severity='success' sx={{ width: '100%' }}>
+      <Snackbar open={successAlertMessage ? true : false} autoHideDuration={3000} onClose={() => () => setSuccessAlertMessage(null)}>
+        <Alert onClose={() => setSuccessAlertMessage(null)} severity='success' sx={{ width: '100%' }}>
           {successAlertMessage}
         </Alert>
       </Snackbar>

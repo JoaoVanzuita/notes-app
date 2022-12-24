@@ -35,6 +35,7 @@ export const NoteCard: React.FC<TNoteProps> = ({
         <CardContent>
           <Box padding={1}>
             <TextField variant='standard' size='small' placeholder='Adicione um título...' fullWidth value={title} onChange={ev => setTitle(ev.currentTarget.value)} inputProps={{
+              maxLength: 100,
               style: {
                 borderWidth: '0px',
                 textAlign: 'center',
@@ -44,7 +45,8 @@ export const NoteCard: React.FC<TNoteProps> = ({
             />
           </Box>
           <Box padding={1}>
-            <TextField variant='outlined' placeholder='Adicione uma descrição...' fullWidth multiline rows={13} value={description} onChange={ev => setDescription(ev.currentTarget.value)}/>
+            <TextField variant='outlined' placeholder='Adicione uma descrição...' fullWidth multiline rows={13} value={description} onChange={ev => setDescription(ev.currentTarget.value)}
+              inputProps={{ maxLength: 500 }}/>
           </Box>
 
           <Box paddingX={1} display='flex' alignItems='center' justifyContent='space-between'>
