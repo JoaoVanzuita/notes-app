@@ -1,6 +1,6 @@
 # Notes App
 
-    Um editor de notas online com um sistema de login implementado com JWT.
+    Uma aplicação web que permite que usuários se cadastrem, façam login e criem e editem notas de texto.
 
 ## Tecnologias utilizadas:
 
@@ -9,10 +9,13 @@
 - Typescript
 - Node
 - Express
-- React
-- Material UI
-- PostgreSql
 - TypeOrm
+- React
+- Axios
+- Material UI
+- Yup
+- PostgreSql
+- Docker
 
 <br>
 <hr>
