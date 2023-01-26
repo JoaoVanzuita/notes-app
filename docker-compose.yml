@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  notes-app-client:
+    container_name: notes-app-client
+    image: node:alpine
+    volumes:
+      - ./client:/usr/app
+    working_dir: /usr/app
+    command: sh -c 'yarn && yarn dev'
+    ports:
+      - '5173:5173'
+  notes-app-server:
+    container_name: notes-app-server
+    image: node:alpine
+    working_dir: /usr/app
+    command: sh -c 'yarn && yarn dev'
+    volumes:
+      - ./server:/usr/app
+    ports:
+      - '${SERVER_PORT}:${SERVER_PORT}'
+    env_file:
+      - .env
+    environment:
+      - SERVER_PORT=${SERVER_PORT}
+      - DATABASE_URL=${DB_URL}
+      - JWT_SECRET=${JWT_SECRET}
+    depends_on:
+      - notes-app-db
+  notes-app-db:
+    container_name: notes-app-db
+    image: 'postgres:14-alpine'
+    ports:
+      - '${POSTGRES_PORT}:5432'
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    volumes:
+      - pg-data:/var/lib/postgresql/data
+volumes:
+  pg-data:
